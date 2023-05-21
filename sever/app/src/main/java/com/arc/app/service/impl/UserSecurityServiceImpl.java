@@ -6,9 +6,11 @@ import com.arc.app.repository.RoleRepository;
 import com.arc.app.repository.UserRepository;
 import com.arc.app.request.RoleRequest;
 import com.arc.app.request.UserRequest;
+import com.arc.app.response.UserResponse;
 import com.arc.app.service.UserSecurityService;
 import com.arc.app.utils.ConvertUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -18,10 +20,7 @@ import org.springframework.util.ObjectUtils;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 @Transactional
 @Service
@@ -86,5 +85,111 @@ public class UserSecurityServiceImpl implements UserSecurityService, UserDetails
         } catch (Exception e) {
             return false;
         }
+    }
+
+    @Override
+    public UserResponse getCurrentUser() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return new UserResponse(user);
+    }
+
+    @Override
+    public boolean isAdmin() {
+        return false;
+    }
+
+    @Override
+    public boolean hasHRIReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasATHReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasMDReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasARVReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasCIReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasMTCReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasCReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasPREPReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasPOCReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasCIHCReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasRPREPReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasHGReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasSPReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasICReport() {
+        return false;
+    }
+
+    @Override
+    public boolean hasHIReport() {
+        return false;
+    }
+
+    @Override
+    public boolean isRoleView() {
+        return false;
+    }
+
+    @Override
+    public boolean isRoleEdit() {
+        return false;
+    }
+
+    @Override
+    public boolean isRoleConfirm() {
+        return false;
+    }
+
+    @Override
+    public Integer getAccountType() {
+        return null;
     }
 }

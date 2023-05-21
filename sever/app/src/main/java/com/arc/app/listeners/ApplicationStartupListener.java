@@ -17,10 +17,10 @@ public class ApplicationStartupListener implements ApplicationListener<ContextRe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // Create role
-        createData.createRole(RoleEnum.ROLE_ADMIN.getRoleName());
-        createData.createRole(RoleEnum.ROLE_PROVINCE.getRoleName());
-        createData.createRole(RoleEnum.ROLE_DISTRICT.getRoleName());
-        createData.createRole(RoleEnum.ROLE_COMMUNE.getRoleName());
+        createData.createRole(RoleEnum.ROLE_ADMIN.getId(), RoleEnum.ROLE_ADMIN.getName().toLowerCase());
+        createData.createRole(RoleEnum.ROLE_PROVINCE.getId(), RoleEnum.ROLE_PROVINCE.getName().toLowerCase());
+        createData.createRole(RoleEnum.ROLE_DISTRICT.getId(), RoleEnum.ROLE_DISTRICT.getName().toLowerCase());
+        createData.createRole(RoleEnum.ROLE_COMMUNE.getId(), RoleEnum.ROLE_COMMUNE.getName().toLowerCase());
         // Create user
         createData.createUser(UserEnum.ADMIN.getUsername(), UserEnum.ADMIN.getPassword(), List.of(RoleEnum.ROLE_ADMIN));
         createData.createUser(UserEnum.PROVINCE.getUsername(), UserEnum.PROVINCE.getPassword(), List.of(RoleEnum.ROLE_PROVINCE));

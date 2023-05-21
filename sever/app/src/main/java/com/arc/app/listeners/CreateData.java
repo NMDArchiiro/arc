@@ -19,9 +19,10 @@ public class CreateData {
     @Resource
     private UserSecurityService userSecurityService;
 
-    public void createRole(String roleName) {
+    public void createRole(Long id, String roleName) {
         if(!roleService.duplicateRole(roleName)) {
             RoleRequest request = new RoleRequest();
+            request.setId(id);
             request.setName(roleName);
             roleService.saveRole(request);
         }
