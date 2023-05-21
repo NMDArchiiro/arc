@@ -1,9 +1,14 @@
 package com.arc.app.entity;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import javax.persistence.*;
 
 @Entity
 @Table(name = "tbl_role")
+@Getter
+@Setter
 public class Role {
     @Id
     @Column(name = "id", nullable = false)
@@ -12,20 +17,4 @@ public class Role {
 
     @Column(name = "name", nullable = false)
     protected String name;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 }
