@@ -12,9 +12,6 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     @Query(value = "select e from Role e")
     List<Role> findList();
 
-    @Query(value = "select e from Role e where e.name like :name")
-    List<Role> findListByName(String name);
-
     @Query(value = "select count(e) from Role e where e.name like :name")
     Long countDuplicate(String name);
 }

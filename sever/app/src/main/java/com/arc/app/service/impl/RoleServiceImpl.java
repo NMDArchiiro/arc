@@ -52,10 +52,7 @@ public class RoleServiceImpl implements RoleService {
     public Boolean duplicateRole(String roleName) {
         try {
             Long countDuplicate = roleRepository.countDuplicate(roleName);
-            if(countDuplicate > 0) {
-                return true;
-            }
-            return false;
+            return countDuplicate > 0;
         } catch (Exception e) {
             return false;
         }
