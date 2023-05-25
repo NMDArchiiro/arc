@@ -20,12 +20,12 @@ import java.util.Date;
 public class AuditableEntity implements Serializable {
     @CreatedBy
     @Column(name = "create_by")
-    protected String createdBy;
+    protected String createBy;
 
     @CreatedDate
     @Column(name = "created_date")
     @Temporal(TemporalType.TIMESTAMP)
-    protected Date createdDate;
+    protected Date createDate;
 
     @LastModifiedBy
     @Column(name = "modified_by")

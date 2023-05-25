@@ -8,13 +8,11 @@ import com.arc.app.response.ResponseList;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.RoleService;
 import com.arc.app.utils.constants.ARCConstants;
-import com.arc.app.utils.enums.RoleEnum;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
