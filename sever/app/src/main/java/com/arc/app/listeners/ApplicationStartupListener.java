@@ -17,15 +17,12 @@ public class ApplicationStartupListener implements ApplicationListener<ContextRe
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
         // Create role
-        createData.createRole(RoleEnum.ROLE_ADMIN.getId(), RoleEnum.ROLE_ADMIN.getName().toLowerCase());
-        createData.createRole(RoleEnum.ROLE_PROVINCE.getId(), RoleEnum.ROLE_PROVINCE.getName().toLowerCase());
-        createData.createRole(RoleEnum.ROLE_DISTRICT.getId(), RoleEnum.ROLE_DISTRICT.getName().toLowerCase());
-        createData.createRole(RoleEnum.ROLE_COMMUNE.getId(), RoleEnum.ROLE_COMMUNE.getName().toLowerCase());
+        createData.createRole(RoleEnum.ROLE_ADMIN.getId(), RoleEnum.ROLE_ADMIN.getName());
+        createData.createRole(RoleEnum.ROLE_EDIT.getId(), RoleEnum.ROLE_EDIT.getName());
+        createData.createRole(RoleEnum.ROLE_CONFIRM.getId(), RoleEnum.ROLE_CONFIRM.getName());
+        createData.createRole(RoleEnum.ROLE_VIEW.getId(), RoleEnum.ROLE_VIEW.getName());
         // Create user
         createData.createUser(UserEnum.ADMIN.getUsername(), UserEnum.ADMIN.getPassword(), List.of(RoleEnum.ROLE_ADMIN));
-        createData.createUser(UserEnum.PROVINCE.getUsername(), UserEnum.PROVINCE.getPassword(), List.of(RoleEnum.ROLE_PROVINCE));
-        createData.createUser(UserEnum.DISTRICT.getUsername(), UserEnum.DISTRICT.getPassword(), List.of(RoleEnum.ROLE_DISTRICT));
-        createData.createUser(UserEnum.COMMUNE.getUsername(), UserEnum.COMMUNE.getPassword(), List.of(RoleEnum.ROLE_COMMUNE));
 
     }
 }

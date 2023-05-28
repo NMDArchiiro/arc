@@ -43,14 +43,4 @@ public class AdminUnitRequest {
             }
         }
     }
-
-    public boolean objectIsNew() throws IllegalAccessException {
-        for(Field field : getClass().getDeclaredFields()) {
-            field.setAccessible(true);
-            if(field.get(this) != null) {
-                return false;
-            }
-        }
-        return true;
-    }
 }

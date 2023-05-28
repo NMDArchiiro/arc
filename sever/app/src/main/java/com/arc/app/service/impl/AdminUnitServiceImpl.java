@@ -40,7 +40,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
     public ResponseObject find(Long id) {
         try {
             AdminUnit adminUnit = adminUnitRepository.findById(id).orElse(null);
-            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), adminUnit);
+            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new AdminUnitRequest(adminUnit, true));
         } catch (Exception e) {
             return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
         }
@@ -68,6 +68,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
             }
             adminUnit.setCode(request.getCode());
             adminUnit.setName(request.getName());
+            adminUnit.setLevel(request.getLevel());
             if(request.getParent() != null && request.getParent().getId() != null) {
                 AdminUnit parent = adminUnitRepository.findById(request.getParent().getId()).orElse(null);
                 adminUnit.setParent(parent);

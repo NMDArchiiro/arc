@@ -18,6 +18,9 @@ public class HealthOrganization extends BaseEntity{
     @Column(name = "name")
     private String name;
 
+    @Column(name = "level")
+    private Integer level;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "province_id")
     private AdminUnit province;
@@ -28,7 +31,7 @@ public class HealthOrganization extends BaseEntity{
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "commune_id")
-    private AdminUnit ward;
+    private AdminUnit commune;
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
