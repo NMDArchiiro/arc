@@ -1,13 +1,17 @@
 package com.arc.app.service;
 
 import com.arc.app.request.UserRequest;
-import com.arc.app.response.UserResponse;
+import com.arc.app.request.UserSecurity;
 
 public interface UserSecurityService {
-    UserRequest saveUser(UserRequest request);
+    UserSecurity saveUser(UserSecurity request);
     Boolean duplicateUser(String username);
-    UserResponse getCurrentUser();
+    UserRequest getCurrentUser();
     boolean isAdmin();
+    boolean isRoleEdit();
+    boolean isRoleConfirm();
+    boolean isRoleView();
+    Integer getAccountType();
     boolean hasHRIReport();
     boolean hasATHReport();
     boolean hasMDReport();
@@ -23,9 +27,4 @@ public interface UserSecurityService {
     boolean hasSPReport();
     boolean hasICReport();
     boolean hasHIReport();
-    boolean isRoleView();
-    boolean isRoleEdit();
-    boolean isRoleConfirm();
-    Integer getAccountType();
-
 }

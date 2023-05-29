@@ -6,9 +6,10 @@ import com.arc.app.repository.RoleRepository;
 import com.arc.app.repository.UserRepository;
 import com.arc.app.request.RoleRequest;
 import com.arc.app.request.UserRequest;
-import com.arc.app.response.UserResponse;
+import com.arc.app.request.UserSecurity;
 import com.arc.app.service.UserSecurityService;
 import com.arc.app.utils.ConvertUtils;
+import com.arc.app.utils.enums.RoleEnum;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -33,19 +34,19 @@ public class UserSecurityServiceImpl implements UserSecurityService, UserDetails
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        UserRequest userRequest = userRepository.findByUsername(username);
-        if(ObjectUtils.isEmpty(userRequest)) {
+        UserSecurity userSecurity = userRepository.findByUsername(username);
+        if(ObjectUtils.isEmpty(userSecurity)) {
             throw new UsernameNotFoundException("User not found");
         }
         Collection<SimpleGrantedAuthority> authorities = new ArrayList<>();
-        if(!CollectionUtils.isEmpty(userRequest.getRoles())) {
-            userRequest.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
-            return new org.springframework.security.core.userdetails.User(userRequest.getUsername(), userRequest.getPassword(), authorities);
+        if(!CollectionUtils.isEmpty(userSecurity.getRoles())) {
+            userSecurity.getRoles().forEach(role -> authorities.add(new SimpleGrantedAuthority(role.getName())));
+            return new org.springframework.security.core.userdetails.User(userSecurity.getUsername(), userSecurity.getPassword(), authorities);
         }
         return null;
     }
     @Override
-    public UserRequest saveUser(UserRequest request) {
+    public UserSecurity saveUser(UserSecurity request) {
         if(request != null) {
             User user = null;
             if(request.getId() != null) {
@@ -72,7 +73,7 @@ public class UserSecurityServiceImpl implements UserSecurityService, UserDetails
                 user.setRoles(listRole);
             }
             user = userRepository.save(user);
-            return new UserRequest(user);
+            return new UserSecurity(user);
         }
         return null;
     }
@@ -88,108 +89,160 @@ public class UserSecurityServiceImpl implements UserSecurityService, UserDetails
     }
 
     @Override
-    public UserResponse getCurrentUser() {
+    public UserRequest getCurrentUser() {
         User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        return new UserResponse(user);
+        return new UserRequest(user);
     }
 
     @Override
     public boolean isAdmin() {
-        return false;
-    }
-
-    @Override
-    public boolean hasHRIReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasATHReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasMDReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasARVReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasCIReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasMTCReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasCReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasPREPReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasPOCReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasCIHCReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasRPREPReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasHGReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasSPReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasICReport() {
-        return false;
-    }
-
-    @Override
-    public boolean hasHIReport() {
-        return false;
-    }
-
-    @Override
-    public boolean isRoleView() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!CollectionUtils.isEmpty(user.getRoles())) {
+            for(Role role : user.getRoles()) {
+                if(role.getName().equals(RoleEnum.ROLE_ADMIN.getName())) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public boolean isRoleEdit() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!CollectionUtils.isEmpty(user.getRoles())) {
+            for(Role role : user.getRoles()) {
+                if(role.getName().equals(RoleEnum.ROLE_EDIT.getName())) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public boolean isRoleConfirm() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!CollectionUtils.isEmpty(user.getRoles())) {
+            for(Role role : user.getRoles()) {
+                if(role.getName().equals(RoleEnum.ROLE_CONFIRM.getName())) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    @Override
+    public boolean isRoleView() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(!CollectionUtils.isEmpty(user.getRoles())) {
+            for(Role role : user.getRoles()) {
+                if(role.getName().equals(RoleEnum.ROLE_VIEW.getName())) {
+                    return true;
+                }
+            }
+        }
         return false;
     }
 
     @Override
     public Integer getAccountType() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(user.getAccountType() != null) {
+            return user.getAccountType();
+        }
         return null;
     }
+
+    @Override
+    public boolean hasHRIReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasHRIReport();
+    }
+
+    @Override
+    public boolean hasATHReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasATHReport();
+    }
+
+    @Override
+    public boolean hasMDReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasMDReport();
+    }
+
+    @Override
+    public boolean hasARVReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasARVReport();
+    }
+
+    @Override
+    public boolean hasCIReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasCIReport();
+    }
+
+    @Override
+    public boolean hasMTCReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasMTCReport();
+    }
+
+    @Override
+    public boolean hasCReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasCReport();
+    }
+
+    @Override
+    public boolean hasPREPReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasPREPReport();
+    }
+
+    @Override
+    public boolean hasPOCReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasPOCReport();
+    }
+
+    @Override
+    public boolean hasCIHCReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasCIHCReport();
+    }
+
+    @Override
+    public boolean hasRPREPReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasRPREPReport();
+    }
+
+    @Override
+    public boolean hasHGReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasHGReport();
+    }
+
+    @Override
+    public boolean hasSPReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasSPReport();
+    }
+
+    @Override
+    public boolean hasICReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasICReport();
+    }
+
+    @Override
+    public boolean hasHIReport() {
+        User user = (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        return user.getHasHIReport();
+    }
+
 }

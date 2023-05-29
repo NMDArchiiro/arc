@@ -3,7 +3,7 @@ package com.arc.app.rest;
 import com.arc.app.entity.Role;
 import com.arc.app.repository.UserRepository;
 import com.arc.app.request.RoleRequest;
-import com.arc.app.request.UserRequest;
+import com.arc.app.request.UserSecurity;
 import com.arc.app.response.ResponseList;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.RoleService;
@@ -47,7 +47,7 @@ public class BaseController {
                 JWTVerifier verifier = JWT.require(algorithm).build();
                 DecodedJWT decodedJWT = verifier.verify(token);
                 String username = decodedJWT.getSubject();
-                UserRequest user = userRepository.findByUsername(username);
+                UserSecurity user = userRepository.findByUsername(username);
                 String access_token = JWT.create()
                         .withSubject(user.getUsername())
                         .withIssuedAt(Date.from(Instant.now()))

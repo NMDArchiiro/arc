@@ -29,6 +29,9 @@ public class User extends BaseEntity {
     @Column(name = "account_type")
     private Integer accountType;// 1:don vi trung uong 2: don vi khu vuc 3: don vi tinh 4: don vi huyen 5: don vi xa
 
+    @Column(name = "active")
+    private Boolean active;
+
     @Column(name = "has_hri_report")
     private Boolean hasHRIReport = false;
 

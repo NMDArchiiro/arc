@@ -1,7 +1,7 @@
 package com.arc.app.listeners;
 
 import com.arc.app.request.RoleRequest;
-import com.arc.app.request.UserRequest;
+import com.arc.app.request.UserSecurity;
 import com.arc.app.service.RoleService;
 import com.arc.app.service.UserSecurityService;
 import com.arc.app.utils.enums.RoleEnum;
@@ -30,7 +30,7 @@ public class CreateData {
 
     public void createUser(String userName, String password, List<RoleEnum> roles) {
         if(!userSecurityService.duplicateUser(userName)) {
-            UserRequest request = new UserRequest();
+            UserSecurity request = new UserSecurity();
             request.setUsername(userName);
             request.setPassword(password);
             List<RoleRequest> roleRequests = new ArrayList<>();
