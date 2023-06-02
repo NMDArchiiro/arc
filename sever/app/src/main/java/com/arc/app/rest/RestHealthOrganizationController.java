@@ -1,10 +1,9 @@
 package com.arc.app.rest;
 
-import com.arc.app.request.AdminUnitRequest;
-import com.arc.app.request.HealthOrganizationRequest;
+import com.arc.app.request.base.HealthOrganizationRequest;
 import com.arc.app.request.search.SearchRequest;
 import com.arc.app.response.ResponseObject;
-import com.arc.app.service.HealthOrganizationService;
+import com.arc.app.service.base.HealthOrganizationService;
 import org.springframework.data.domain.Page;
 import org.springframework.web.bind.annotation.*;
 

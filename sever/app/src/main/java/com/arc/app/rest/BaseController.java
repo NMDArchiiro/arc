@@ -1,12 +1,12 @@
 package com.arc.app.rest;
 
-import com.arc.app.entity.Role;
-import com.arc.app.repository.UserRepository;
-import com.arc.app.request.RoleRequest;
-import com.arc.app.request.UserSecurity;
+import com.arc.app.entity.base.Role;
+import com.arc.app.repository.base.UserRepository;
+import com.arc.app.request.base.RoleRequest;
+import com.arc.app.request.base.UserSecurity;
 import com.arc.app.response.ResponseList;
 import com.arc.app.response.ResponseObject;
-import com.arc.app.service.RoleService;
+import com.arc.app.service.base.RoleService;
 import com.arc.app.utils.constants.ARCConstants;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
