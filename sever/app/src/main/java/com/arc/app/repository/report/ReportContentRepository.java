@@ -25,14 +25,6 @@ public interface ReportContentRepository extends JpaRepository<ReportContent, Lo
     @Query("select e from ReportContent e where e.indexNumber = ?1 AND e.reportNumber = ?2")
     List<ReportContent> findByNumber(Integer indexNumber, Integer reportNumber);
 
-    @Query(value = "SELECT new com.arc.app.request.report.ReportContentRequest(e) from ReportContent e " +
-            "where (:keyword is null or :keyword = '' or e.title like  concat('%',:keyword,'%') " +
-            "       or e.reportNumber = :reportNumber) order by e.reportNumber",
-            countQuery = "select count(e.id) from ReportContent e " +
-                    "where (:keyword is null or :keyword = '' or e.title like  concat('%',:keyword,'%')  " +
-                    "   or e.reportNumber = :reportNumber)")
-    Page<ReportContentRequest> paging(String keyword, Integer reportNumber, Pageable pageable);
-
     @Query(value ="SELECT new com.arc.app.request.report.ReportContentRequest(e) from ReportContent e where " +
             "e.reportNumber = :reportNumber " +
             "and (:id is null or e.id <> :id)" )

@@ -29,10 +29,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(final org.springframework.security.config.annotation.web.builders.HttpSecurity http) throws Exception {
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManagerBean());
-        authenticationFilter.setFilterProcessesUrl("/api/login"); // -> http://localhost:9000/arc/api/login
+        authenticationFilter.setFilterProcessesUrl("/oauth/token"); // -> http://localhost:9000/arc/oauth/token
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
-        http.authorizeHttpRequests().antMatchers("/api/login/**", "/api/refresh-token/**").permitAll();
+        http.authorizeHttpRequests().antMatchers("/oauth/token/**", "/oauth/refresh-token/**").permitAll();
         http.authorizeHttpRequests().anyRequest().authenticated();
         http.addFilter(authenticationFilter);
         http.addFilterBefore(new AuthorizationFilter(), UsernamePasswordAuthenticationFilter.class);

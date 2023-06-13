@@ -6,5 +6,4 @@ public class ARCConstants {
     public static final int LEVEL_PROVINCE = 1;
     public static final int LEVEL_DISTRICT = 2;
     public static final int LEVEL_COMMUNE = 3;
-
 }

@@ -1,8 +1,10 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
-import { Router } from '@angular/router';
+import { BehaviorSubject, Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { BreakpointObserver } from '@angular/cdk/layout';
+import { User } from 'src/app/_models/user.model';
+import { HttpClient } from "@angular/common/http";
+import { ConfigInitService } from 'src/app/pages/apps/init/config-init.service';
 
 @Injectable({
   providedIn: 'root'
@@ -50,8 +52,17 @@ export class LayoutService {
 
   isMobile = () => this.breakpointObserver.isMatched(`(max-width: 599px)`);
 
-  constructor(private router: Router,
-              private breakpointObserver: BreakpointObserver) { }
+  rootRouter: string = '';
+  currentUser: any = null;
+
+  constructor(private configInitService: ConfigInitService,
+    private breakpointObserver: BreakpointObserver,
+    private http: HttpClient) { }
+
+  getCurrentUser(): Observable<User> {
+    let url = this.configInitService.apiBaseUrl + '/api/v1/user-accounts' + "/getCurrentUser";
+    return this.http.get<User>(url, { responseType: "json" });
+  }
 
   openQuickpanel() {
     this._quickpanelOpenSubject.next(true);

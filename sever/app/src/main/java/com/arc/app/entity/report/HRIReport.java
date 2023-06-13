@@ -13,7 +13,7 @@ import java.util.Set;
 @Setter
 public class HRIReport extends BaseEntity {
     @OneToOne(mappedBy = "hriReport")
-    private HIVReportForm hivReportForm;
+    private HIVReport hivReport;
 
     @OneToMany(mappedBy = "hriReport", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<HRIReportContent> contents;

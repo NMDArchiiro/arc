@@ -1,11 +1,13 @@
 package com.arc.app.utils.enums;
 
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 /**
  * author: NMDuc
  **/
 @Getter
+@NoArgsConstructor
 public enum ReportEnum {
     HRI(1, "Hoạt động can thiệp giảm tác hại"),
     ATH(2, "Tư vấn, xét nghiệm HIV"),

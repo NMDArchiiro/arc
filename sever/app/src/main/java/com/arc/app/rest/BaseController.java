@@ -37,6 +37,7 @@ public class BaseController {
     @Resource
     private RoleService roleService;
 
+    // Hien tai chua su dung den
     @GetMapping("/refresh-token")
     public void refreshToken(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String authorization = request.getHeader(AUTHORIZATION);

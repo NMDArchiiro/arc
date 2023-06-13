@@ -11,13 +11,19 @@ import javax.persistence.Table;
 @Entity(name = "tbl_file_description")
 @Getter
 @Setter
-public class FileDescription extends BaseEntity{
-    @Column(name = "file_name")
-    private String fileName;
+public class FileDescription extends BaseEntity {
+    @Column(name = "content_type")
+    private String contentType;
 
-    @Column(name = "file_size")
-    private Long fileSize;
+    @Column(name = "content_size")
+    private Long contentSize;
 
-    @Column(name = "path")
-    private String path;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "extension")
+    private String extension;
+
+    @Column(name = "file_path")
+    private String filePath;
 }
