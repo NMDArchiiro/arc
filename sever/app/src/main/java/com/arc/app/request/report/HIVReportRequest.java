@@ -3,6 +3,7 @@ package com.arc.app.request.report;
 import com.arc.app.entity.report.HIVReport;
 import com.arc.app.request.base.AdminUnitRequest;
 import com.arc.app.request.base.HealthOrganizationRequest;
+import com.arc.app.utils.constants.HIVConstants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -46,14 +47,27 @@ public class HIVReportRequest {
             this.note = entity.getNote();
             this.locked = entity.getLocked();
             this.modifyDate = entity.getLastModifiedDate();
-            if(entity.getProvince() != null) {
-                this.province = new AdminUnitRequest(entity.getProvince(),false);
-            }
-            if(entity.getDistrict() != null) {
-                this.province = new AdminUnitRequest(entity.getDistrict(),false);
-            }
-            if(entity.getCommune() != null) {
-                this.province = new AdminUnitRequest(entity.getCommune(),false);
+            if(entity.getAdminUnit() != null && entity.getAdminUnit().getLevel() != null) {
+                switch (entity.getAdminUnit().getLevel()) {
+                    case HIVConstants.LEVEL_PROVINCE:
+                        this.province = new AdminUnitRequest(entity.getAdminUnit(), false);
+                        break;
+                    case HIVConstants.LEVEL_DISTRICT:
+                        this.district = new AdminUnitRequest(entity.getAdminUnit(), false);
+                        if(entity.getAdminUnit().getParent() != null) {
+                            this.province = new AdminUnitRequest(entity.getAdminUnit().getParent(), false);
+                        }
+                        break;
+                    case HIVConstants.LEVEL_COMMUNE:
+                        this.commune = new AdminUnitRequest(entity.getAdminUnit(), false);
+                        if(entity.getAdminUnit().getParent() != null) {
+                            this.district = new AdminUnitRequest(entity.getAdminUnit().getParent(), false);
+                            if(entity.getAdminUnit().getParent().getParent() != null) {
+                                this.province = new AdminUnitRequest(entity.getAdminUnit().getParent().getParent(), false);
+                            }
+                        }
+                        break;
+                }
             }
             if(entity.getHealthOrg() != null) {
                 this.healthOrg = new HealthOrganizationRequest(entity.getHealthOrg(),false);

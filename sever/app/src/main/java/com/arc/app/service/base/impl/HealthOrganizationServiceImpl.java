@@ -125,7 +125,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "select new com.arc.app.request.HealthOrganizationRequest(e, true) from HealthOrganization e ";
+            String sqlSelect = "select new com.arc.app.request.base.HealthOrganizationRequest(e, true) from HealthOrganization e ";
             String sqlCount = "select count(e) from HealthOrganization e ";
             String orderBy = " order by e.createDate desc";
             String where = " where (e.locked is null or e.locked is false) ";

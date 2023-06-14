@@ -8,6 +8,7 @@ import com.arc.app.request.search.SearchRequest;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.base.AdminUnitService;
 import com.arc.app.utils.constants.ARCConstants;
+import com.arc.app.utils.constants.HIVConstants;
 import com.arc.app.utils.enums.ResponseEnum;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
@@ -115,7 +116,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "select new com.arc.app.request.AdminUnitRequest(e, true) from AdminUnit e ";
+            String sqlSelect = "select new com.arc.app.request.base.AdminUnitRequest(e, true) from AdminUnit e ";
             String sqlCount = "select count(e) from AdminUnit e ";
             String orderBy = " order by e.createDate desc";
             String where = " where (e.locked is null or e.locked is false) ";
@@ -166,7 +167,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
                             province = new AdminUnitRequest();
                             province.setCode(request.getCodeProvince());
                             province.setName(request.getNameProvince());
-                            province.setLevel(ARCConstants.LEVEL_PROVINCE);
+                            province.setLevel(HIVConstants.LEVEL_PROVINCE);
                             this.save(province);
                         }
                     }
@@ -181,7 +182,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
                             district = new AdminUnitRequest();
                             district.setCode(request.getCodeDistrict());
                             district.setName(request.getNameDistrict());
-                            district.setLevel(ARCConstants.LEVEL_DISTRICT);
+                            district.setLevel(HIVConstants.LEVEL_DISTRICT);
                             district.setParent(province);
                             this.save(district);
                         }
@@ -197,7 +198,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
                             commune = new AdminUnitRequest();
                             commune.setCode(request.getCodeCommune());
                             commune.setName(request.getNameCommune());
-                            commune.setLevel(ARCConstants.LEVEL_COMMUNE);
+                            commune.setLevel(HIVConstants.LEVEL_COMMUNE);
                             commune.setParent(district);
                             this.save(commune);
                         }

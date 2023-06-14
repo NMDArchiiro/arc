@@ -13,4 +13,7 @@ public class HIVConstants {
     public static final int VIEW_QUARTER_AFFILIATE_PROVINCE = 7;
     public static final int VIEW_YEAR_AFFILIATE_DISTRICT = 8;
     public static final int VIEW_YEAR_AFFILIATE_PROVINCE = 9;
+    public static final int LEVEL_PROVINCE = 1;
+    public static final int LEVEL_DISTRICT = 2;
+    public static final int LEVEL_COMMUNE = 3;
 }

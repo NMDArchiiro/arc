@@ -31,6 +31,16 @@ public class HRIReportContentRequest {
             this.lubricant = entity.getLubricant();
         }
     }
+    public HRIReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, Boolean canWrite, Long syringeNeedle, Long condom, Long lubricant) {
+        this.reportContent = new ReportContentRequest();
+        this.reportContent.setId(id);
+        this.reportContent.setTitle(title);
+        this.reportContent.setIndexNumber(indexNumber);
+        this.reportContent.setReportNumber(reportNumber);
+        this.reportContent.setCanWrite(canWrite);
+        this.syringeNeedle = syringeNeedle.intValue();
+        this.condom = condom.intValue();
+    }
 
     public Integer getIndexNumber(){
         if(this.reportContent!=null && this.reportContent.getIndexNumber()!=null){

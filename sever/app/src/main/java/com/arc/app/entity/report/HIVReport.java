@@ -41,16 +41,8 @@ public class HIVReport extends BaseEntity {
     private HealthOrganization healthOrg;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "province_id")
-    private AdminUnit province;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "district_id")
-    private AdminUnit district;
-
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
-    @JoinColumn(name = "commune_id")
-    private AdminUnit commune;
+    @JoinColumn(name = "administrative_unit_id", nullable = true)
+    private AdminUnit adminUnit;
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "hri_report_id")
