@@ -1,13 +1,11 @@
 package com.arc.app.service.report.impl;
 
-import com.arc.app.entity.report.HRIReportContent;
 import com.arc.app.entity.report.ReportContent;
-import com.arc.app.repository.report.HRIReportContentRepository;
 import com.arc.app.repository.report.ReportContentRepository;
-import com.arc.app.request.report.HRIReportContentRequest;
-import com.arc.app.request.report.HRIReportRequest;
+import com.arc.app.request.report.ATHReportContentRequest;
+import com.arc.app.request.report.ATHReportRequest;
 import com.arc.app.request.report.ReportContentRequest;
-import com.arc.app.service.report.HRIReportService;
+import com.arc.app.service.report.ATHReportService;
 import com.arc.app.utils.enums.ReportEnum;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
@@ -22,21 +20,21 @@ import java.util.List;
  **/
 @Transactional
 @Service
-public class HRIReportServiceImpl implements HRIReportService {
+public class ATHReportServiceImpl implements ATHReportService {
     @Resource
     private ReportContentRepository reportContentRepository;
 
     @Override
-    public HRIReportRequest getHRIReport(Long id) {
-        HRIReportRequest result = new HRIReportRequest();
+    public ATHReportRequest getATHReport(Long id) {
+        ATHReportRequest result = new ATHReportRequest();
         if(id != null) {
 
         } else {
-            List<ReportContent> contents = reportContentRepository.getByReportNumber(ReportEnum.HRI.getNumber());
+            List<ReportContent> contents = reportContentRepository.getByReportNumber(ReportEnum.ATH.getNumber());
             result.setContents(new ArrayList<>());
             if (!CollectionUtils.isEmpty(contents)) {
                 for (ReportContent item : contents) {
-                    HRIReportContentRequest request = new HRIReportContentRequest();
+                    ATHReportContentRequest request = new ATHReportContentRequest();
                     request.setReportContent(new ReportContentRequest(item));
                     result.getContents().add(request);
                 }

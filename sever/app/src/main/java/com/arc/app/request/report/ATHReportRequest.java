@@ -1,5 +1,7 @@
 package com.arc.app.request.report;
 
+import com.arc.app.entity.report.ATHReport;
+import com.arc.app.entity.report.ATHReportContent;
 import com.arc.app.entity.report.HRIReport;
 import com.arc.app.entity.report.HRIReportContent;
 import lombok.Getter;
@@ -18,27 +20,26 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HRIReportRequest {
-    private List<HRIReportContentRequest> contents;
+public class ATHReportRequest {
+    private List<ATHReportContentRequest> contents;
 
-    public HRIReportRequest(HRIReport entity) {
+    public ATHReportRequest(ATHReport entity) {
         if(entity != null) {
             if (entity.getContents() != null && entity.getContents().size() > 0) {
                 this.contents = new ArrayList<>();
-                for (HRIReportContent item : entity.getContents()) {
-                    this.contents.add(new HRIReportContentRequest(item));
+                for (ATHReportContent item : entity.getContents()) {
+                    this.contents.add(new ATHReportContentRequest(item));
                 }
             }
         }
     }
 
-    public List<HRIReportContentRequest> getContents() {
+    public List<ATHReportContentRequest> getContents() {
         if(!CollectionUtils.isEmpty(contents)) {
-            this.contents = this.contents.stream().sorted(Comparator.comparing(HRIReportContentRequest::getIndexNumber,
+            this.contents = this.contents.stream().sorted(Comparator.comparing(ATHReportContentRequest::getIndexNumber,
                     Comparator.nullsFirst(Comparator.naturalOrder()))).collect(Collectors.toList());
             return contents;
         }
         return contents;
     }
-
 }

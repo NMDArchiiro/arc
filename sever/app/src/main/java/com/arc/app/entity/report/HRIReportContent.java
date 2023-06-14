@@ -11,7 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class HRIReportContent extends BaseEntity {
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "hri_report_id")
     private HRIReport hriReport;
 
@@ -20,11 +20,11 @@ public class HRIReportContent extends BaseEntity {
     private ReportContent content;
 
     @Column(name = "number_syringe_needle")
-    private Integer syringeNeedle;// bom kim tiem
+    private Integer numberSyringeNeedle;// bom kim tiem
 
     @Column(name = "number_condom")
-    private Integer condom;// bao cao su
+    private Integer numberCondom;// bao cao su
 
     @Column(name = "number_lubricant")
-    private Integer lubricant;// chat boi tron
+    private Integer numberLubricant;// chat boi tron
 }

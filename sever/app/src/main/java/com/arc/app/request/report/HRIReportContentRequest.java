@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 /**
  * author: NMDuc
  **/
@@ -26,9 +24,9 @@ public class HRIReportContentRequest {
             if(entity.getContent() != null) {
                 this.reportContent = new ReportContentRequest(entity.getContent());
             }
-            this.syringeNeedle = entity.getSyringeNeedle();
-            this.condom = entity.getCondom();
-            this.lubricant = entity.getLubricant();
+            this.syringeNeedle = entity.getNumberSyringeNeedle();
+            this.condom = entity.getNumberCondom();
+            this.lubricant = entity.getNumberLubricant();
         }
     }
     public HRIReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, Boolean canWrite, Long syringeNeedle, Long condom, Long lubricant) {

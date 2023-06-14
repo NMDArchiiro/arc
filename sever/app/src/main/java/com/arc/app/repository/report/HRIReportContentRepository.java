@@ -14,11 +14,14 @@ import java.util.UUID;
  **/
 @Repository
 public interface HRIReportContentRepository extends JpaRepository<HRIReportContent, Long> {
+    // Query tinh tong theo huyen
+    // DVTT is null, adminUnit lay parent -> huyen
+    // DVTT is not null, adminUnit -> huyen
     @Query("select new com.arc.app.request.report.HRIReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.canWrite, " +
-            "sum(case when entity.syringeNeedle is null then 0 else entity.syringeNeedle end)," +
-            "sum(case when entity.condom is null then 0 else entity.condom end)," +
-            "sum(case when entity.lubricant is null then 0 else entity.lubricant end)) " +
+            "sum(case when entity.numberSyringeNeedle is null then 0 else entity.numberSyringeNeedle end)," +
+            "sum(case when entity.numberCondom is null then 0 else entity.numberCondom end)," +
+            "sum(case when entity.numberLubricant is null then 0 else entity.numberLubricant end)) " +
             "from HRIReportContent entity " +
             "Where (entity.locked is null OR entity.locked is false ) " +
             "and entity.hriReport.hivReport.status = 5 " +

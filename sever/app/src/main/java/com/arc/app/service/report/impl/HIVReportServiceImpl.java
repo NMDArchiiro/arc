@@ -7,7 +7,6 @@ import com.arc.app.request.report.HIVReportRequest;
 import com.arc.app.service.base.UserSecurityService;
 import com.arc.app.service.report.HIVReportService;
 import com.arc.app.service.report.HRIReportService;
-import com.arc.app.utils.constants.ARCConstants;
 import com.arc.app.utils.constants.HIVConstants;
 import com.arc.app.utils.enums.AccountTypeEnum;
 import org.springframework.stereotype.Service;
@@ -39,6 +38,11 @@ public class HIVReportServiceImpl implements HIVReportService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public HIVReportRequest saveHIVReport(Long id) {
+        return null;
     }
 
     @Override
