@@ -15,7 +15,7 @@ public class HRIReportContent extends BaseEntity {
     @JoinColumn(name = "hri_report_id")
     private HRIReport hriReport;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "report_content_id")
     private ReportContent content;
 
