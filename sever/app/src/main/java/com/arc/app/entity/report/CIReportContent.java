@@ -14,11 +14,11 @@ import javax.persistence.*;
 @Getter
 @Setter
 public class CIReportContent extends BaseEntity {
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "ci_report_id")
     private CIReport ciReport;
 
-    @ManyToOne()
+    @ManyToOne
     @JoinColumn(name = "report_content_id")
     private ReportContent content;
 
