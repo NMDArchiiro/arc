@@ -16,9 +16,6 @@ import java.util.UUID;
  **/
 @Repository
 public interface ReportContentRepository extends JpaRepository<ReportContent, Long> {
-    @Query("Select e From ReportContent e Where e.id = ?1")
-    ReportContent getById(UUID id);
-
     @Query("Select e From ReportContent e Where e.reportNumber = ?1 Order by e.indexNumber")
     List<ReportContent> getByReportNumber(Integer reportNumber);
 
