@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 /**
  * author: NMDuc
  **/
 @NoArgsConstructor
 @Getter
 @Setter
-
 public class HGReportContentRequest {
     private Long id;
     private ReportContentRequest reportContent;
