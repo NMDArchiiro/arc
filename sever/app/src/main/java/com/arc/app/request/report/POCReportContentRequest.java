@@ -17,17 +17,17 @@ public class POCReportContentRequest {
     private Integer amount; // So luong
 
     public POCReportContentRequest(POCReportContent entity) {
-        if(entity != null) {
+        if (entity != null) {
             this.id = entity.getId();
-            if(entity.getContent() != null) {
+            if (entity.getContent() != null) {
                 this.reportContent = new ReportContentRequest(entity.getContent());
             }
             this.amount = entity.getAmount();
         }
     }
 
-    public POCReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent, Boolean bold, Boolean italics, Boolean canWrite,
-                                                     Long amount) {
+    public POCReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent,
+                                   Boolean bold, Boolean italics, Boolean canWrite, Long amount) {
         this.reportContent = new ReportContentRequest();
         this.reportContent.setId(id);
         this.reportContent.setTitle(title);
@@ -40,8 +40,8 @@ public class POCReportContentRequest {
         this.amount = amount.intValue();
     }
 
-    public Integer getIndexNumber(){
-        if(this.reportContent!=null && this.reportContent.getIndexNumber()!=null){
+    public Integer getIndexNumber() {
+        if (this.reportContent != null && this.reportContent.getIndexNumber() != null) {
             return this.reportContent.getIndexNumber();
         }
         return null;

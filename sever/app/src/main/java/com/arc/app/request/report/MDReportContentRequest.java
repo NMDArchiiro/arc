@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.UUID;
-
 /**
  * author: NMDuc
  **/
@@ -21,9 +19,9 @@ public class MDReportContentRequest {
     private Integer numberTotalPatient;
 
     public MDReportContentRequest(MDReportContent entity) {
-        if(entity != null) {
+        if (entity != null) {
             this.id = entity.getId();
-            if(entity.getContent() != null) {
+            if (entity.getContent() != null) {
                 this.reportContent = new ReportContentRequest(entity.getContent());
             }
             this.numberMalePatient = entity.getNumberMalePatient();
@@ -33,7 +31,7 @@ public class MDReportContentRequest {
     }
 
     public MDReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent, Boolean bold, Boolean italics,
-                                     Boolean canWrite, Long numberMalePatient, Long numberFemalePatient, Long numberTotalPatient) {
+                                  Boolean canWrite, Long numberMalePatient, Long numberFemalePatient, Long numberTotalPatient) {
         this.reportContent = new ReportContentRequest();
         this.reportContent.setId(id);
         this.reportContent.setTitle(title);
@@ -48,8 +46,8 @@ public class MDReportContentRequest {
         this.numberTotalPatient = numberTotalPatient.intValue();
     }
 
-    public Integer getIndexNumber(){
-        if(this.reportContent!=null && this.reportContent.getIndexNumber()!=null){
+    public Integer getIndexNumber() {
+        if (this.reportContent != null && this.reportContent.getIndexNumber() != null) {
             return this.reportContent.getIndexNumber();
         }
         return null;

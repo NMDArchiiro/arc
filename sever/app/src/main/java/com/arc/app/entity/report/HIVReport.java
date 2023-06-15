@@ -58,5 +58,9 @@ public class HIVReport extends BaseEntity {
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
     @JoinColumn(name = "md_report_id")
-    private MDReport mdReport; // Bao cao truyen thong phong, chong HIV/AIDS
+    private MDReport mdReport; // Dieu tri nghien cac chat dang methadone
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL,orphanRemoval = true)
+    @JoinColumn(name = "arv_report_id")
+    private ARVReport arvReport; // Quan ly dieu tri arv
 }

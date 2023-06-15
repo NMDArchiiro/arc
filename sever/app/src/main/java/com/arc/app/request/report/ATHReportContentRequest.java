@@ -30,9 +30,9 @@ public class ATHReportContentRequest {
     private Integer numberPersonTestingTotal; // tong so nguoi xet nghiem
 
     public ATHReportContentRequest(ATHReportContent entity) {
-        if(entity != null) {
+        if (entity != null) {
             this.id = entity.getId();
-            if(entity.getContent() != null) {
+            if (entity.getContent() != null) {
                 this.reportContent = new ReportContentRequest(entity.getContent());
             }
             this.numberAdviseMale = entity.getNumberAdviseMale();
@@ -51,10 +51,10 @@ public class ATHReportContentRequest {
     }
 
     public ATHReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent, Boolean bold, Boolean italics, Boolean canWrite,
-                                            Long numberAdviseMale, Long numberAdviseFemale, Long numberAdviseTotal,
-                                            Long numberTestingMale, Long numberTestingFemale, Long numberTestingTotal,
-                                            Long numberPersonAdviseMale, Long numberPersonAdviseFemale, Long numberPersonAdviseTotal,
-                                            Long numberPersonTestingMale, Long numberPersonTestingFemale, Long numberPersonTestingTotal) {
+                                   Long numberAdviseMale, Long numberAdviseFemale, Long numberAdviseTotal,
+                                   Long numberTestingMale, Long numberTestingFemale, Long numberTestingTotal,
+                                   Long numberPersonAdviseMale, Long numberPersonAdviseFemale, Long numberPersonAdviseTotal,
+                                   Long numberPersonTestingMale, Long numberPersonTestingFemale, Long numberPersonTestingTotal) {
         this.reportContent = new ReportContentRequest();
         this.reportContent.setId(id);
         this.reportContent.setTitle(title);
@@ -78,8 +78,8 @@ public class ATHReportContentRequest {
         this.numberPersonTestingTotal = numberPersonTestingTotal.intValue();
     }
 
-    public Integer getIndexNumber(){
-        if(this.reportContent!=null && this.reportContent.getIndexNumber()!=null){
+    public Integer getIndexNumber() {
+        if (this.reportContent != null && this.reportContent.getIndexNumber() != null) {
             return this.reportContent.getIndexNumber();
         }
         return null;
