@@ -10,13 +10,13 @@ import javax.persistence.*;
  * author: NMDuc
  **/
 @Entity
-@Table(name = "tbl_prep_report_content")
+@Table(name = "tbl_r_prep_report_content")
 @Getter
 @Setter
-public class PREPReportContent extends BaseEntity {
+public class RPREPReportContent extends BaseEntity {
     @ManyToOne
-    @JoinColumn(name = "prep_report_id")
-    private PREPReport prepReport;
+    @JoinColumn(name = "r_prep_report_id")
+    private RPREPReport rPrepReport;
 
     @ManyToOne
     @JoinColumn(name = "report_content_id")

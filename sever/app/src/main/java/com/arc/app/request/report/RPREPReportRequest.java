@@ -1,6 +1,9 @@
 package com.arc.app.request.report;
 
-import com.arc.app.entity.report.*;
+import com.arc.app.entity.report.PREPReport;
+import com.arc.app.entity.report.PREPReportContent;
+import com.arc.app.entity.report.RPREPReport;
+import com.arc.app.entity.report.RPREPReportContent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -17,25 +20,25 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class PREPReportRequest {
+public class RPREPReportRequest {
     private Long id;
-    private List<PREPReportContentRequest> contents;
+    private List<RPREPReportContentRequest> contents;
 
-    public PREPReportRequest(PREPReport entity) {
+    public RPREPReportRequest(RPREPReport entity) {
         if(entity != null) {
             this.id = entity.getId();
             if (entity.getContents() != null && entity.getContents().size() > 0) {
                 this.contents = new ArrayList<>();
-                for (PREPReportContent item : entity.getContents()) {
-                    this.contents.add(new PREPReportContentRequest(item));
+                for (RPREPReportContent item : entity.getContents()) {
+                    this.contents.add(new RPREPReportContentRequest(item));
                 }
             }
         }
     }
 
-    public List<PREPReportContentRequest> getContents() {
+    public List<RPREPReportContentRequest> getContents() {
         if(!CollectionUtils.isEmpty(contents)) {
-            this.contents = this.contents.stream().sorted(Comparator.comparing(PREPReportContentRequest::getIndexNumber,
+            this.contents = this.contents.stream().sorted(Comparator.comparing(RPREPReportContentRequest::getIndexNumber,
                     Comparator.nullsFirst(Comparator.naturalOrder()))).collect(Collectors.toList());
             return contents;
         }
