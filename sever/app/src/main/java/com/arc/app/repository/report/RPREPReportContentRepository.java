@@ -27,13 +27,13 @@ public interface RPREPReportContentRepository extends JpaRepository<RPREPReportC
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from RPREPReportContent entity " +
             "Where (entity.locked is null OR entity.locked = false ) " +
-            "and entity.rPrepReport.hivReport.quarter is not null " +
-            "and entity.rPrepReport.hivReport.status = 5 " +
-            "and entity.rPrepReport.hivReport.quarter = :quarter " +
-            "and entity.rPrepReport.hivReport.year = :year " +
-            "and ((entity.rPrepReport.hivReport.adminUnit.parent.id =:administrativeId and entity.rPrepReport.hivReport.healthOrg is  null ) or " +
-            "   (entity.rPrepReport.hivReport.adminUnit.id =:administrativeId and " +
-            "		entity.rPrepReport.hivReport.healthOrg is not null )) " +
+            "and entity.rprepReport.hivReport.quarter is not null " +
+            "and entity.rprepReport.hivReport.status = 5 " +
+            "and entity.rprepReport.hivReport.quarter = :quarter " +
+            "and entity.rprepReport.hivReport.year = :year " +
+            "and ((entity.rprepReport.hivReport.adminUnit.parent.id =:administrativeId and entity.rprepReport.hivReport.healthOrg is  null ) or " +
+            "   (entity.rprepReport.hivReport.adminUnit.id =:administrativeId and " +
+            "		entity.rprepReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
     List<RPREPReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
 }

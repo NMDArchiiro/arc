@@ -81,6 +81,10 @@ public class HIVReport extends BaseEntity {
     private CReport cReport; // Chuan doan som nhiem HIV tre duoi 18 thang tuoi
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    @JoinColumn(name = "r_prep_report_id")
-    private RPREPReport rPrepReport; // Duy tri dieu tri du phong truoc phoi nhiem HIV (PREP)
+    @JoinColumn(name = "rprep_report_id")
+    private RPREPReport rprepReport; // Duy tri dieu tri du phong truoc phoi nhiem HIV (PREP)
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "cihc_report_id")
+    private CIHCReport cihcReport; // Dong nhiem HIV va viem gan C
 }
