@@ -28,13 +28,11 @@ public interface CIHCReportContentRepository extends JpaRepository<CIHCReportCon
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from CIHCReportContent entity " +
             "Where (entity.locked is null OR entity.locked = false ) " +
-            "and entity.cihcReport.hivReport.quarter is not null " +
+            "and entity.cihcReport.hivReport.quarter is null " +
             "and entity.cihcReport.hivReport.status = 5 " +
-            "and entity.cihcReport.hivReport.quarter = :quarter " +
             "and entity.cihcReport.hivReport.year = :year " +
             "and ((entity.cihcReport.hivReport.adminUnit.parent.id =:administrativeId and entity.cihcReport.hivReport.healthOrg is null )  or " +
-            "   (entity.cihcReport.hivReport.adminUnit.id =:administrativeId and " +
-            "		entity.cihcReport.hivReport.healthOrg is not null )) " +
+            "(entity.cihcReport.hivReport.adminUnit.id =:administrativeId and entity.cihcReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<CIHCReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<CIHCReportContentRequest> findTotalYear(Integer year, UUID administrativeId);
 }

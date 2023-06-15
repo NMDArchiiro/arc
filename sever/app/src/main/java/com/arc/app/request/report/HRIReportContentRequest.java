@@ -38,6 +38,7 @@ public class HRIReportContentRequest {
         this.reportContent.setCanWrite(canWrite);
         this.syringeNeedle = syringeNeedle.intValue();
         this.condom = condom.intValue();
+        this.lubricant = lubricant.intValue();
     }
 
     public Integer getIndexNumber(){

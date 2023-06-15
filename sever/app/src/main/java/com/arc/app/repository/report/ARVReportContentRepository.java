@@ -33,8 +33,7 @@ public interface ARVReportContentRepository extends JpaRepository<ARVReportConte
             "and entity.arvReport.hivReport.quarter = :quarter " +
             "and entity.arvReport.hivReport.year = :year " +
             "and ((entity.arvReport.hivReport.adminUnit.parent.id =:administrativeId and entity.arvReport.hivReport.healthOrg is null )  or " +
-            "   (entity.arvReport.hivReport.adminUnit.id =:administrativeId and " +
-            "		entity.arvReport.hivReport.healthOrg is not null )) " +
+            "(entity.arvReport.hivReport.adminUnit.id =:administrativeId and entity.arvReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
     List<ARVReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
 }
