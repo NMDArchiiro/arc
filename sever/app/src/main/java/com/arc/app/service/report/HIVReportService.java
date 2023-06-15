@@ -7,6 +7,8 @@ import com.arc.app.request.report.HIVReportRequest;
  **/
 public interface HIVReportService {
     HIVReportRequest getHIVReportForm(Long id); // Tim theo id
+    HIVReportRequest exitsQuarter(HIVReportRequest request); // Quy da ton tai
+    HIVReportRequest exitsYear(HIVReportRequest request); // Nam da tong tai
     HIVReportRequest createQuarterCommune(); // Khoi tao bao cao quy xa
     HIVReportRequest createQuarterDistrict(); // Khoi tao bao cao quy huyen
     HIVReportRequest createYearDistrict(); // Khoi tao bao cao nam huyen

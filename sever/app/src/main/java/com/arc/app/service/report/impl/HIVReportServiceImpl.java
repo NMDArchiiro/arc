@@ -10,9 +10,12 @@ import com.arc.app.service.report.*;
 import com.arc.app.utils.constants.HIVConstants;
 import com.arc.app.utils.enums.AccountTypeEnum;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.util.List;
+import java.util.UUID;
 
 /**
  * author: NMDuc
@@ -66,6 +69,59 @@ public class HIVReportServiceImpl implements HIVReportService {
         } catch (Exception e) {
             return null;
         }
+    }
+
+    @Override
+    public HIVReportRequest exitsQuarter(HIVReportRequest request) {
+        if (request != null) {
+            Long adminUnitId = null;
+            Long orgId = null;
+            if (request.getProvince() != null && request.getProvince().getId() != null) {
+                adminUnitId = request.getProvince().getId();
+            }
+            if (request.getDistrict() != null && request.getDistrict().getId() != null) {
+                adminUnitId = request.getDistrict().getId();
+            }
+            if (request.getCommune() != null && request.getCommune().getId() != null) {
+                adminUnitId = request.getCommune().getId();
+            }
+            if (request.getHealthOrg() != null && request.getHealthOrg().getId() != null) {
+                orgId = request.getHealthOrg().getId();
+            }
+            if (request.getQuarter() == null || request.getYear() == null || adminUnitId == null) {
+                return null;
+            }
+            List<HIVReport> hivReports = hivReportRepository.hivReportExistQuarter(request.getQuarter(), request.getYear(), adminUnitId, orgId);
+            if(!CollectionUtils.isEmpty(hivReports)) {
+                return setRole(new HIVReportRequest(hivReports.get(0)));
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public HIVReportRequest exitsYear(HIVReportRequest request) {
+        if (request != null) {
+            Long adminUnitId = null;
+            Long orgId = null;
+            if (request.getProvince() != null && request.getProvince().getId() != null) {
+                adminUnitId = request.getProvince().getId();
+            }
+            if (request.getDistrict() != null && request.getDistrict().getId() != null) {
+                adminUnitId = request.getDistrict().getId();
+            }
+            if (request.getHealthOrg() != null && request.getHealthOrg().getId() != null) {
+                orgId = request.getHealthOrg().getId();
+            }
+            if (request.getYear() == null || adminUnitId == null) {
+                return null;
+            }
+            List<HIVReport> hivReports = hivReportRepository.hivReportExistYear(request.getYear(), adminUnitId, orgId);
+            if(!CollectionUtils.isEmpty(hivReports)) {
+                return setRole(new HIVReportRequest(hivReports.get(0)));
+            }
+        }
+        return null;
     }
 
     @Override
