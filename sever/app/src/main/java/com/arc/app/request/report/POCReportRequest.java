@@ -19,10 +19,12 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class POCReportRequest {
+    private Long id;
     private List<POCReportContentRequest> contents;
 
     public POCReportRequest(POCReport entity) {
         if(entity != null) {
+            this.id = entity.getId();
             if (entity.getContents() != null && entity.getContents().size() > 0) {
                 this.contents = new ArrayList<>();
                 for (POCReportContent item : entity.getContents()) {

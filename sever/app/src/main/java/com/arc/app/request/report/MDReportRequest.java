@@ -1,7 +1,9 @@
 package com.arc.app.request.report;
 
-import com.arc.app.entity.report.HRIReport;
-import com.arc.app.entity.report.HRIReportContent;
+import com.arc.app.entity.report.MDReport;
+import com.arc.app.entity.report.MDReportContent;
+import com.arc.app.entity.report.POCReport;
+import com.arc.app.entity.report.POCReportContent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -18,29 +20,27 @@ import java.util.stream.Collectors;
 @NoArgsConstructor
 @Getter
 @Setter
-public class HRIReportRequest {
+public class MDReportRequest {
     private Long id;
-    private List<HRIReportContentRequest> contents;
-
-    public HRIReportRequest(HRIReport entity) {
+    private List<MDReportContentRequest> contents;
+    public MDReportRequest(MDReport entity) {
         if(entity != null) {
             this.id = entity.getId();
             if (entity.getContents() != null && entity.getContents().size() > 0) {
                 this.contents = new ArrayList<>();
-                for (HRIReportContent item : entity.getContents()) {
-                    this.contents.add(new HRIReportContentRequest(item));
+                for (MDReportContent item : entity.getContents()) {
+                    this.contents.add(new MDReportContentRequest(item));
                 }
             }
         }
     }
 
-    public List<HRIReportContentRequest> getContents() {
+    public List<MDReportContentRequest> getContents() {
         if(!CollectionUtils.isEmpty(contents)) {
-            this.contents = this.contents.stream().sorted(Comparator.comparing(HRIReportContentRequest::getIndexNumber,
+            this.contents = this.contents.stream().sorted(Comparator.comparing(MDReportContentRequest::getIndexNumber,
                     Comparator.nullsFirst(Comparator.naturalOrder()))).collect(Collectors.toList());
             return contents;
         }
         return contents;
     }
-
 }

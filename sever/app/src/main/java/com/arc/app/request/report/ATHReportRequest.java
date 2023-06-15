@@ -21,10 +21,12 @@ import java.util.stream.Collectors;
 @Getter
 @Setter
 public class ATHReportRequest {
+    private Long id;
     private List<ATHReportContentRequest> contents;
 
     public ATHReportRequest(ATHReport entity) {
         if(entity != null) {
+            this.id = entity.getId();
             if (entity.getContents() != null && entity.getContents().size() > 0) {
                 this.contents = new ArrayList<>();
                 for (ATHReportContent item : entity.getContents()) {
