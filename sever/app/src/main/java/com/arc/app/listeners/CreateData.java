@@ -18,11 +18,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 @Service
 public class CreateData {
@@ -104,7 +101,7 @@ public class CreateData {
         this.createContent(ReportEnum.CIHC.getNumber());
         this.createContent(ReportEnum.HG.getNumber());
         this.createContent(ReportEnum.SP.getNumber());
-        this.createContent(ReportEnum.IM.getNumber());
+        this.createContent(ReportEnum.IC.getNumber());
         this.createContent(ReportEnum.HI.getNumber());
     }
 
@@ -225,7 +222,7 @@ public class CreateData {
             this.saveReportContent(3, "3","Số cở sở cấp phát thuốc Methadone", reportNumber,true, false, false);
             this.saveReportContent(4, "4","Số cơ sở tư vấn xét nghiệm tự nguyện", reportNumber,true, false, false);
             this.saveReportContent(5, "5","Số cơ sở điều trị PrEP", reportNumber,true, false, false);
-        }else if(reportNumber.equals(ReportEnum.IM.getNumber())){//Kinh phí triển khai các dịch vụ phòng chống HIV / AIDS
+        }else if(reportNumber.equals(ReportEnum.IC.getNumber())){//Kinh phí triển khai các dịch vụ phòng chống HIV / AIDS
             this.saveReportContent(1, "1","Ngân sách địa phương", reportNumber,true, false, false);
             this.saveReportContent(2, "2","Viện trợ", reportNumber,true, false, false);
             this.saveReportContent(3, "3","Khu vực tư nhân", reportNumber,true, false, false);

@@ -22,7 +22,7 @@ public enum ReportEnum {
     CIHC(11, "Điều trị đồng nhiễm HIV và viêm gan C"),
     HG(12, "Số lượng đối tượng nguy cơ cao"),
     SP(13, "Điểm cung cấp dịch vụ"),
-    IM(14, "Kinh phí triển khai các dịch vụ phòng, chống HIV/AIDS"),
+    IC(14, "Kinh phí triển khai các dịch vụ phòng, chống HIV/AIDS"),
     HI(15, "Bảo hiểm y tế");
     private Integer number;
     private String content;
