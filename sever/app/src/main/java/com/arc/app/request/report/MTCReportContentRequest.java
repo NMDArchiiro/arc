@@ -1,6 +1,6 @@
 package com.arc.app.request.report;
 
-import com.arc.app.entity.report.POCReportContent;
+import com.arc.app.entity.report.MTCReportContent;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,12 +11,12 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class POCReportContentRequest {
+public class MTCReportContentRequest {
     private Long id;
     private ReportContentRequest reportContent;
     private Integer amount; // So luong
 
-    public POCReportContentRequest(POCReportContent entity) {
+    public MTCReportContentRequest(MTCReportContent entity) {
         if (entity != null) {
             this.id = entity.getId();
             if (entity.getContent() != null) {
@@ -26,7 +26,7 @@ public class POCReportContentRequest {
         }
     }
 
-    public POCReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent,
+    public MTCReportContentRequest(Long id, String title, Integer indexNumber, Integer reportNumber, String subContent,
                                    Boolean bold, Boolean italics, Boolean canWrite, Long amount) {
         this.reportContent = new ReportContentRequest();
         this.reportContent.setId(id);
