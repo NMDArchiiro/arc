@@ -30,7 +30,7 @@ public class HIVReport extends BaseEntity {
     private String note;
 
     @Column(name = "locked")
-    private Boolean locked;
+    private Boolean isLock;
 
     @ManyToOne
     @JoinColumn(name = "file_id")

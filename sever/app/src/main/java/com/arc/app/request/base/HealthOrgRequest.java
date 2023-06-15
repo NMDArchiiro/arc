@@ -12,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-public class HealthOrganizationRequest {
+public class HealthOrgRequest {
     private Long id;
     @NotNull(message = ValidationMessage.NULL)
     private String code;
@@ -21,10 +21,10 @@ public class HealthOrganizationRequest {
     private AdminUnitRequest province;
     private AdminUnitRequest district;
     private AdminUnitRequest commune;
-    private HealthOrganizationRequest parent;
-    private List<HealthOrganizationRequest> children;
+    private HealthOrgRequest parent;
+    private List<HealthOrgRequest> children;
 
-    public HealthOrganizationRequest(HealthOrganization entity, boolean isGetChildren) {
+    public HealthOrgRequest(HealthOrganization entity, boolean isGetChildren) {
         if(entity != null) {
             this.id = entity.getId();
             this.code = entity.getCode();
@@ -55,11 +55,11 @@ public class HealthOrganizationRequest {
                 this.province = province;
             }
             if(entity.getParent() != null) {
-                this.parent = new HealthOrganizationRequest(entity.getParent(), false);
+                this.parent = new HealthOrgRequest(entity.getParent(), false);
             }
             if(isGetChildren && !CollectionUtils.isEmpty(entity.getChildrens())) {
                 for(HealthOrganization children : entity.getChildrens()) {
-                    this.children.add(new HealthOrganizationRequest(children, false));
+                    this.children.add(new HealthOrgRequest(children, false));
                 }
             }
         }

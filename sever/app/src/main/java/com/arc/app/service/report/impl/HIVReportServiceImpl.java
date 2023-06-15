@@ -1,21 +1,27 @@
 package com.arc.app.service.report.impl;
 
 import com.arc.app.entity.report.HIVReport;
-import com.arc.app.entity.report.MTCReport;
+import com.arc.app.repository.base.AdminUnitRepository;
+import com.arc.app.repository.base.HealthOrgRepository;
 import com.arc.app.repository.report.HIVReportRepository;
 import com.arc.app.request.base.UserRequest;
 import com.arc.app.request.report.HIVReportRequest;
+import com.arc.app.request.search.HIVReportSearchRequest;
 import com.arc.app.service.base.UserSecurityService;
 import com.arc.app.service.report.*;
 import com.arc.app.utils.constants.HIVConstants;
 import com.arc.app.utils.enums.AccountTypeEnum;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * author: NMDuc
@@ -57,6 +63,11 @@ public class HIVReportServiceImpl implements HIVReportService {
     private ICReportService icReportService;
     @Resource
     private HIReportService hiReportService;
+    @Resource
+    private HealthOrgRepository healthOrgRepository;
+    @Resource
+    private AdminUnitRepository adminUnitRepository;
+    private static Logger LOG = LoggerFactory.getLogger(HIVReportServiceImpl.class);
 
     @Override
     public HIVReportRequest getHIVReportForm(Long id) {
@@ -92,7 +103,7 @@ public class HIVReportServiceImpl implements HIVReportService {
                 return null;
             }
             List<HIVReport> hivReports = hivReportRepository.hivReportExistQuarter(request.getQuarter(), request.getYear(), adminUnitId, orgId);
-            if(!CollectionUtils.isEmpty(hivReports)) {
+            if (!CollectionUtils.isEmpty(hivReports)) {
                 return setRole(new HIVReportRequest(hivReports.get(0)));
             }
         }
@@ -117,7 +128,7 @@ public class HIVReportServiceImpl implements HIVReportService {
                 return null;
             }
             List<HIVReport> hivReports = hivReportRepository.hivReportExistYear(request.getYear(), adminUnitId, orgId);
-            if(!CollectionUtils.isEmpty(hivReports)) {
+            if (!CollectionUtils.isEmpty(hivReports)) {
                 return setRole(new HIVReportRequest(hivReports.get(0)));
             }
         }
@@ -550,7 +561,140 @@ public class HIVReportServiceImpl implements HIVReportService {
     }
 
     @Override
-    public HIVReportRequest saveHIVReport(Long id) {
+    public HIVReportRequest saveHIVReport(HIVReportRequest request) {
+        if (request != null) {
+            UserRequest currentUser = userSecurityService.getCurrentUser();
+            HIVReport hivReport = null;
+            if (request.getId() != null) {
+                hivReport = hivReportRepository.findById(request.getId()).orElse(null);
+            }
+            if (hivReport == null) {
+                // Truong hop tim khong theo id
+                Long adminUnitId = null;
+                Long healthOrgId = null;
+                if (request.getHealthOrg() != null && request.getHealthOrg().getId() != null) {
+                    healthOrgId = request.getHealthOrg().getId(); // Co the null
+                }
+                if (request.getCommune() != null && request.getCommune().getId() != null) {
+                    adminUnitId = request.getCommune().getId();
+                } else if (request.getDistrict() != null && request.getDistrict().getId() != null) {
+                    adminUnitId = request.getDistrict().getId();
+                } else if (request.getProvince() != null && request.getProvince().getId() != null) {
+                    adminUnitId = request.getProvince().getId();
+                }
+                List<HIVReport> listData = hivReportRepository.findByYearQuarterAdminUnitHealthOrg(request.getYear(), request.getQuarter(), adminUnitId, healthOrgId);
+                if (!CollectionUtils.isEmpty(listData)) {
+                    hivReport = listData.get(0);
+                }
+            }
+            if (hivReport == null) {
+                hivReport = new HIVReport();
+            }
+            hivReport.setReporter(currentUser.getDisplayName());
+            hivReport.setStatus(request.getStatus());
+            hivReport.setQuarter(request.getQuarter());
+            hivReport.setYear(request.getYear());
+            hivReport.setNote(request.getNote());
+            if (request.getHealthOrg() != null && request.getHealthOrg().getId() != null) {
+                hivReport.setHealthOrg(healthOrgRepository.findById(request.getHealthOrg().getId()).orElse(null));
+            }
+            if (request.getCommune() != null && request.getCommune().getId() != null) {
+                hivReport.setAdminUnit(adminUnitRepository.findById(request.getCommune().getId()).orElse(null));
+            } else if (request.getDistrict() != null && request.getDistrict().getId() != null) {
+                hivReport.setAdminUnit(adminUnitRepository.findById(request.getDistrict().getId()).orElse(null));
+            } else if (request.getDistrict() != null && request.getProvince().getId() != null) {
+                hivReport.setAdminUnit(adminUnitRepository.findById(request.getProvince().getId()).orElse(null));
+            } else {
+                hivReport.setAdminUnit(null);
+            }
+            // HRI Report
+            if (request.getHriReport() != null) {
+                hivReport.setHriReport(hriReportService.setData(request.getHriReport()));
+            }
+            // ATH Report
+            if (request.getAthReport() != null) {
+                hivReport.setAthReport(athReportService.setData(request.getAthReport()));
+            }
+            // POC Report
+            if (request.getPocReport() != null) {
+                hivReport.setPocReport(pocReportService.setData(request.getPocReport()));
+            }
+            // MD Report
+            if (request.getMdReport() != null) {
+                hivReport.setMdReport(mdReportService.setData(request.getMdReport()));
+            }
+            // ARV Report
+            if (request.getArvReport() != null) {
+                hivReport.setArvReport(arvReportService.setData(request.getArvReport()));
+            }
+            // CI Report
+            if (request.getCiReport() != null) {
+                hivReport.setCiReport(ciReportService.setData(request.getCiReport()));
+            }
+            // MTC Report
+            if (request.getMtcReport() != null) {
+                hivReport.setMtcReport(mtcReportService.setData(request.getMtcReport()));
+            }
+            // PREP Report
+            if (request.getPrepReport() != null) {
+                hivReport.setPrepReport(prepReportService.setData(request.getPrepReport()));
+            }
+            // C Report
+            if (request.getCReport() != null) {
+                hivReport.setCReport(cReportService.setData(request.getCReport()));
+            }
+            // RPREP Report
+            if (request.getRprep() != null) {
+                hivReport.setRprepReport(rprepReportService.setData(request.getRprep()));
+            }
+            // CIHC Report
+            if (request.getCihcReport() != null) {
+                hivReport.setCihcReport(cihcReportService.setData(request.getCihcReport()));
+            }
+            // HG Report
+            if (request.getHgReport() != null) {
+                hivReport.setHgReport(hgReportService.setData(request.getHgReport()));
+            }
+            // SP Report
+            if (request.getSpReport() != null) {
+                hivReport.setSpReport(spReportService.setData(request.getSpReport()));
+            }
+            // IC Report
+            if (request.getIcReport() != null) {
+                hivReport.setIcReport(icReportService.setData(request.getIcReport()));
+            }
+            // HI Report
+            if (request.getHiReport() != null) {
+                hivReport.setHiReport(hiReportService.setData(request.getHiReport()));
+            }
+            hivReport = hivReportRepository.saveAndFlush(hivReport);
+            return setRole(new HIVReportRequest(hivReport));
+        }
+        return null;
+    }
+
+    @Override
+    public void confirmHIVReport(Long idReport, Integer status) {
+        
+    }
+
+    @Override
+    public HIVReportRequest changeStatus(Long idReport, Integer status, HIVReportRequest request) {
+        return null;
+    }
+
+    @Override
+    public Page<HIVReportRequest> paging(HIVReportSearchRequest request) {
+        return null;
+    }
+
+    @Override
+    public Page<HIVReportRequest> pagingQuarter(HIVReportSearchRequest dto) {
+        return null;
+    }
+
+    @Override
+    public Page<HIVReportRequest> pagingYear(HIVReportSearchRequest dto) {
         return null;
     }
 }

@@ -25,6 +25,7 @@ public class UserRequest {
     private String confirmPassword;
     @NotNull(message = ValidationMessage.NULL)
     private List<RoleRequest> roles = new ArrayList<>();
+    @NotNull(message = ValidationMessage.NULL)
     private String displayName;
     private String email;
     private Integer accountType;
@@ -44,7 +45,7 @@ public class UserRequest {
     private Boolean hasSPReport = false;
     private Boolean hasICReport = false;
     private Boolean hasHIReport = false;
-    private HealthOrganizationRequest healthOrganization;
+    private HealthOrgRequest healthOrganization;
     private AdminUnitRequest province;
     private AdminUnitRequest district;
     private AdminUnitRequest commune;
@@ -78,7 +79,7 @@ public class UserRequest {
             this.hasICReport = entity.getHasICReport();
             this.hasHIReport = entity.getHasHIReport();
             if(entity.getHealthOrganization()!= null) {
-                this.healthOrganization = new HealthOrganizationRequest(entity.getHealthOrganization(), false);
+                this.healthOrganization = new HealthOrgRequest(entity.getHealthOrganization(), false);
             }
             if(entity.getProvince()!= null) {
                 this.province = new AdminUnitRequest(entity.getProvince(), false);

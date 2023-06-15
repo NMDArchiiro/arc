@@ -3,8 +3,8 @@ package com.arc.app.service.base.impl;
 import com.arc.app.entity.base.AdminUnit;
 import com.arc.app.entity.base.HealthOrganization;
 import com.arc.app.repository.base.AdminUnitRepository;
-import com.arc.app.repository.base.HealthOrganizationRepository;
-import com.arc.app.request.base.HealthOrganizationRequest;
+import com.arc.app.repository.base.HealthOrgRepository;
+import com.arc.app.request.base.HealthOrgRequest;
 import com.arc.app.request.search.SearchRequest;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.base.HealthOrganizationService;
@@ -27,7 +27,7 @@ import java.util.List;
 @Service
 public class HealthOrganizationServiceImpl implements HealthOrganizationService {
     @Resource
-    private HealthOrganizationRepository healthOrganizationRepository;
+    private HealthOrgRepository healthOrgRepository;
 
     @Resource
     private AdminUnitRepository adminUnitRepository;
@@ -38,8 +38,8 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public ResponseObject find(Long id) {
         try {
-            HealthOrganization healthOrganization = healthOrganizationRepository.findById(id).orElse(null);
-            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrganizationRequest(healthOrganization, true));
+            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
+            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, true));
         } catch (Exception e) {
             return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
         }
@@ -48,7 +48,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public Boolean duplicate(String code) {
         try {
-            Long countDuplicate = healthOrganizationRepository.countDuplicate(code);
+            Long countDuplicate = healthOrgRepository.countDuplicate(code);
             return countDuplicate > 0;
         } catch (Exception e) {
             return false;
@@ -56,11 +56,11 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     }
 
     @Override
-    public ResponseObject save(HealthOrganizationRequest request) {
+    public ResponseObject save(HealthOrgRequest request) {
         try {
             HealthOrganization healthOrganization = null;
             if(request.getId()!= null) {
-                healthOrganization = healthOrganizationRepository.findById(request.getId()).orElse(null);
+                healthOrganization = healthOrgRepository.findById(request.getId()).orElse(null);
             }
             if(healthOrganization == null) {
                 healthOrganization = new HealthOrganization();
@@ -68,7 +68,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             healthOrganization.setCode(request.getCode());
             healthOrganization.setName(request.getName());
             if(request.getParent() != null && request.getParent().getId() != null) {
-                HealthOrganization parent = healthOrganizationRepository.findById(request.getParent().getId()).orElse(null);
+                HealthOrganization parent = healthOrgRepository.findById(request.getParent().getId()).orElse(null);
                 healthOrganization.setParent(parent);
             }
             if(request.getProvince() != null && request.getProvince().getId()!= null) {
@@ -83,8 +83,8 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
                 AdminUnit commune = adminUnitRepository.findById(request.getCommune().getId()).orElse(null);
                 healthOrganization.setCommune(commune);
             }
-            healthOrganizationRepository.save(healthOrganization);
-            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrganizationRequest(healthOrganization, false));
+            healthOrgRepository.save(healthOrganization);
+            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, false));
         } catch (Exception e) {
             return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
         }
@@ -93,9 +93,9 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public Boolean delete(Long id) {
         if(id != null) {
-            HealthOrganization healthOrganization = healthOrganizationRepository.findById(id).orElse(null);
+            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
             if(healthOrganization != null) {
-                healthOrganizationRepository.delete(healthOrganization);
+                healthOrgRepository.delete(healthOrganization);
                 return true;
             }
         }
@@ -105,18 +105,18 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public ResponseObject setLocked(Long id) {
         if(id != null) {
-            HealthOrganization healthOrganization = healthOrganizationRepository.findById(id).orElse(null);
+            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
             if(healthOrganization != null) {
                 healthOrganization.setLocked(true);
-                healthOrganizationRepository.save(healthOrganization);
-                return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrganizationRequest(healthOrganization, false));
+                healthOrgRepository.save(healthOrganization);
+                return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, false));
             }
         }
         return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
     }
 
     @Override
-    public Page<HealthOrganizationRequest> getPage(SearchRequest request) {
+    public Page<HealthOrgRequest> getPage(SearchRequest request) {
         if(request != null) {
             int pageIndex = request.getPageIndex();
             int pageSize = request.getPageSize();
@@ -125,7 +125,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "select new com.arc.app.request.base.HealthOrganizationRequest(e, true) from HealthOrganization e ";
+            String sqlSelect = "select new com.arc.app.request.base.HealthOrgRequest(e, true) from HealthOrganization e ";
             String sqlCount = "select count(e) from HealthOrganization e ";
             String orderBy = " order by e.createDate desc";
             String where = " where (e.locked is null or e.locked is false) ";
@@ -139,7 +139,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             }
             sqlSelect += where + orderBy;
             sqlCount += where;
-            Query query = manager.createQuery(sqlSelect, HealthOrganizationRequest.class);
+            Query query = manager.createQuery(sqlSelect, HealthOrgRequest.class);
             Query queryCount = manager.createQuery(sqlCount);
             if(request.getParentId() != null) {
                 query.setParameter("parentId", request.getParentId());
@@ -151,7 +151,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             }
             query.setFirstResult(pageIndex * pageSize);
             query.setMaxResults(request.getPageSize());
-            List<HealthOrganizationRequest> listData = query.getResultList();
+            List<HealthOrgRequest> listData = query.getResultList();
             Pageable pageable = PageRequest.of(pageIndex, pageSize);
             Long numberResult = (Long) queryCount.getSingleResult();
             return new PageImpl<>(listData, pageable, numberResult);

@@ -1,5 +1,7 @@
 package com.arc.app.service.report.impl;
 
+import com.arc.app.entity.report.MDReport;
+import com.arc.app.entity.report.MDReportContent;
 import com.arc.app.entity.report.ReportContent;
 import com.arc.app.repository.report.ReportContentRepository;
 import com.arc.app.request.report.ATHReportContentRequest;
@@ -15,7 +17,9 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * author: NMDuc
@@ -43,5 +47,33 @@ public class MDReportServiceImpl implements MDReportService {
             }
         }
         return result;
+    }
+
+    @Override
+    public MDReport setData(MDReportRequest request) {
+        if (request != null) {
+            MDReport entity = new MDReport();
+
+            if (!CollectionUtils.isEmpty(request.getContents())) {
+                Set<MDReportContent> contents = new HashSet<>();
+                for (MDReportContentRequest item : request.getContents()) {
+                    MDReportContent mdReportContent =  new MDReportContent();
+                    mdReportContent.setMdReport(entity);
+                    mdReportContent.setContent(reportContentRepository.findById(item.getReportContent().getId()).orElse(null));
+                    mdReportContent.setNumberMalePatient(item.getNumberMalePatient());
+                    mdReportContent.setNumberFemalePatient(item.getNumberFemalePatient());
+                    mdReportContent.setNumberTotalPatient(item.getNumberTotalPatient());
+                    contents.add(mdReportContent);
+                }
+                if (!CollectionUtils.isEmpty(entity.getContents())) {
+                    entity.getContents().clear();
+                    entity.getContents().addAll(contents);
+                } else {
+                    entity.setContents(contents);
+                }
+            }
+            return entity;
+        }
+        return null;
     }
 }

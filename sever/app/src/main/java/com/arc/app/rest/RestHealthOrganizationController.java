@@ -1,6 +1,6 @@
 package com.arc.app.rest;
 
-import com.arc.app.request.base.HealthOrganizationRequest;
+import com.arc.app.request.base.HealthOrgRequest;
 import com.arc.app.request.search.SearchRequest;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.base.HealthOrganizationService;
@@ -26,7 +26,7 @@ public class RestHealthOrganizationController {
     }
 
     @PostMapping("/save")
-    public ResponseObject save(@RequestBody HealthOrganizationRequest request) {
+    public ResponseObject save(@RequestBody HealthOrgRequest request) {
         return healthOrganizationService.save(request);
     }
 
@@ -41,7 +41,7 @@ public class RestHealthOrganizationController {
     }
 
     @PostMapping("/get-page")
-    public Page<HealthOrganizationRequest> getPage(@RequestBody SearchRequest request) {
+    public Page<HealthOrgRequest> getPage(@RequestBody SearchRequest request) {
         return healthOrganizationService.getPage(request);
     }
 }

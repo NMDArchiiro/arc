@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * author: NMDuc
@@ -27,4 +28,11 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (entity.adminUnit.id = :adminUnitId) " +
             "and ((:orgId is null and entity.healthOrg is null) or entity.healthOrg.id = :orgId )")
     List<HIVReport> hivReportExistYear(Integer year, Long adminUnitId,Long orgId);
+
+    @Query(value = "select entity from HIVReport entity  where (entity.locked is null or entity.locked = false) " +
+            "and (entity.year = :year) " +
+            "and (entity.adminUnit.id = :adminUnitId) " +
+            "and ((:quarter is null and entity.quarter is null) or (entity.quarter = :quarter)) " +
+            "and ((:orgId is null and entity.healthOrg is null) or (entity.healthOrg.id = :orgId))")
+    List<HIVReport> findByYearQuarterAdminUnitHealthOrg(Integer year, Integer quarter, Long adminUnitId, Long healthOrgId);
 }

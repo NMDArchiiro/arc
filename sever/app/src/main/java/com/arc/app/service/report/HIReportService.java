@@ -1,5 +1,6 @@
 package com.arc.app.service.report;
 
+import com.arc.app.entity.report.HIReport;
 import com.arc.app.request.report.HIReportRequest;
 
 /**
@@ -7,4 +8,5 @@ import com.arc.app.request.report.HIReportRequest;
  **/
 public interface HIReportService {
     HIReportRequest getHIReport(Long id);
+    HIReport setData(HIReportRequest request);
 }

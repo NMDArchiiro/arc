@@ -16,7 +16,7 @@ import javax.persistence.*;
 public class CReportContent extends BaseEntity {
     @ManyToOne
     @JoinColumn(name = "c_report_id")
-    private CIReport cReport;
+    private CReport cReport;
 
     @ManyToOne
     @JoinColumn(name = "report_content_id")

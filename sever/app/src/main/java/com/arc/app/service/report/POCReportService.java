@@ -1,6 +1,6 @@
 package com.arc.app.service.report;
 
-import com.arc.app.request.report.HRIReportRequest;
+import com.arc.app.entity.report.POCReport;
 import com.arc.app.request.report.POCReportRequest;
 
 /**
@@ -8,4 +8,5 @@ import com.arc.app.request.report.POCReportRequest;
  **/
 public interface POCReportService {
     POCReportRequest getPOCReport(Long id);
+    POCReport setData(POCReportRequest request);
 }

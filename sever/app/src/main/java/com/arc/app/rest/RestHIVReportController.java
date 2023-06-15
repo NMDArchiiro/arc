@@ -23,14 +23,14 @@ public class RestHIVReportController {
     }
 
     @PostMapping("/exist-quarter")
-    public ResponseEntity<HIVReportRequest> hivReportExistByQuarter(@RequestBody HIVReportRequest dto) {
-        HIVReportRequest result = hivReportService.exitsQuarter(dto);
+    public ResponseEntity<HIVReportRequest> hivReportExistByQuarter(@RequestBody HIVReportRequest request) {
+        HIVReportRequest result = hivReportService.exitsQuarter(request);
         return ResponseEntity.ok(result);
     }
 
     @PostMapping("/exist-year")
-    public ResponseEntity<HIVReportRequest> hivReportExistByYear(@RequestBody HIVReportRequest dto) {
-        HIVReportRequest result = hivReportService.exitsYear(dto);
+    public ResponseEntity<HIVReportRequest> hivReportExistByYear(@RequestBody HIVReportRequest request) {
+        HIVReportRequest result = hivReportService.exitsYear(request);
         return ResponseEntity.ok(result);
     }
 
@@ -84,6 +84,12 @@ public class RestHIVReportController {
     @GetMapping("/create-year-under-province")
     public ResponseEntity<HIVReportRequest> createYearUnderProvince() {
         HIVReportRequest result = hivReportService.createYearProvince();
+        return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/save")
+    public ResponseEntity<HIVReportRequest> saveHIVReport(@RequestBody HIVReportRequest request) {
+        HIVReportRequest result = hivReportService.saveHIVReport(request);
         return ResponseEntity.ok(result);
     }
 }

@@ -1,5 +1,7 @@
 package com.arc.app.service.report.impl;
 
+import com.arc.app.entity.report.HIVReport;
+import com.arc.app.entity.report.HRIReport;
 import com.arc.app.entity.report.HRIReportContent;
 import com.arc.app.entity.report.ReportContent;
 import com.arc.app.repository.report.HRIReportContentRepository;
@@ -15,7 +17,9 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * author: NMDuc
@@ -43,5 +47,32 @@ public class HRIReportServiceImpl implements HRIReportService {
             }
         }
         return result;
+    }
+
+    @Override
+    public HRIReport setData(HRIReportRequest request) {
+        if (request != null) {
+            HRIReport entity =new HRIReport();
+            if (!CollectionUtils.isEmpty(request.getContents())) {
+                Set<HRIReportContent> contents = new HashSet<>();
+                for (HRIReportContentRequest item : request.getContents()) {
+                    HRIReportContent hriItem =new HRIReportContent();
+                    hriItem.setHriReport(entity);
+                    hriItem.setContent(reportContentRepository.findById(item.getReportContent().getId()).orElse(null));
+                    hriItem.setNumberSyringeNeedle(item.getSyringeNeedle());
+                    hriItem.setNumberCondom(item.getCondom());
+                    hriItem.setNumberLubricant(item.getLubricant());
+                    contents.add(hriItem);
+                }
+                if (!CollectionUtils.isEmpty(entity.getContents())) {
+                    entity.getContents().clear();
+                    entity.getContents().addAll(contents);
+                } else {
+                    entity.setContents(contents);
+                }
+            }
+            return entity;
+        }
+        return null;
     }
 }

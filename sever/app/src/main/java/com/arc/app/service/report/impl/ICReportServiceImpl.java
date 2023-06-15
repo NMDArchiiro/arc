@@ -1,5 +1,7 @@
 package com.arc.app.service.report.impl;
 
+import com.arc.app.entity.report.ICReport;
+import com.arc.app.entity.report.ICReportContent;
 import com.arc.app.entity.report.ReportContent;
 import com.arc.app.repository.report.ReportContentRepository;
 import com.arc.app.request.report.ICReportContentRequest;
@@ -14,7 +16,9 @@ import org.springframework.util.CollectionUtils;
 import javax.annotation.Resource;
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 /**
  * author: NMDuc
@@ -42,5 +46,34 @@ public class ICReportServiceImpl implements ICReportService {
             }
         }
         return result;
+    }
+
+    @Override
+    public ICReport setData(ICReportRequest request) {
+        if (request != null) {
+            ICReport entity = new ICReport();
+            if (!CollectionUtils.isEmpty(request.getContents())) {
+                Set<ICReportContent> contents = new HashSet<ICReportContent>();
+                for (ICReportContentRequest item : request.getContents()) {
+                    ICReportContent icReportContent = new ICReportContent();
+                    icReportContent.setIcReport(entity);
+                    icReportContent.setContent(reportContentRepository.findById(item.getReportContent().getId()).orElse(null));
+                    icReportContent.setProvision(item.getProvision());
+                    icReportContent.setTreatment(item.getTreatment());
+                    icReportContent.setLatest(item.getLatest());
+                    icReportContent.setReviews(item.getReviews());
+                    icReportContent.setCapacityBuilding(item.getCapacityBuilding());
+                    contents.add(icReportContent);
+                }
+                if (!CollectionUtils.isEmpty(entity.getContents())) {
+                    entity.getContents().clear();
+                    entity.getContents().addAll(contents);
+                } else {
+                    entity.setContents(contents);
+                }
+            }
+            return entity;
+        }
+        return null;
     }
 }

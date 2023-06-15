@@ -1,11 +1,8 @@
 package com.arc.app.request.report;
 
-import com.arc.app.entity.report.CIReport;
-import com.arc.app.entity.report.HGReport;
-import com.arc.app.entity.report.HIReport;
 import com.arc.app.entity.report.HIVReport;
 import com.arc.app.request.base.AdminUnitRequest;
-import com.arc.app.request.base.HealthOrganizationRequest;
+import com.arc.app.request.base.HealthOrgRequest;
 import com.arc.app.utils.constants.HIVConstants;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,12 +23,12 @@ public class HIVReportRequest {
     private Integer year;
     private Integer status;
     private String note;
-    private Boolean locked;
+    private Boolean isLock;
     private Date modifyDate;
     private AdminUnitRequest province;
     private AdminUnitRequest district;
     private AdminUnitRequest commune;
-    private HealthOrganizationRequest healthOrg;
+    private HealthOrgRequest healthOrg;
     private FileDescriptionRequest file;
     private HRIReportRequest hriReport; // Bao cao 1
     private ATHReportRequest athReport; // Bao cao 2
@@ -62,7 +59,7 @@ public class HIVReportRequest {
             this.year = entity.getYear();
             this.status = entity.getStatus();
             this.note = entity.getNote();
-            this.locked = entity.getLocked();
+            this.isLock = entity.getIsLock();
             this.modifyDate = entity.getLastModifiedDate();
             if (entity.getAdminUnit() != null && entity.getAdminUnit().getLevel() != null) {
                 switch (entity.getAdminUnit().getLevel()) {
@@ -87,7 +84,7 @@ public class HIVReportRequest {
                 }
             }
             if (entity.getHealthOrg() != null) {
-                this.healthOrg = new HealthOrganizationRequest(entity.getHealthOrg(), false);
+                this.healthOrg = new HealthOrgRequest(entity.getHealthOrg(), false);
             }
             if (entity.getFile() != null) {
                 this.file = new FileDescriptionRequest(entity.getFile());
