@@ -9,6 +9,7 @@ import com.arc.app.request.report.ReportContentRequest;
 import com.arc.app.service.report.MDReportService;
 import com.arc.app.utils.enums.ReportEnum;
 import lombok.Setter;
+import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
@@ -20,7 +21,7 @@ import java.util.List;
  * author: NMDuc
  **/
 @Transactional
-@Setter
+@Service
 public class MDReportServiceImpl implements MDReportService {
     @Resource
     private ReportContentRepository reportContentRepository;
