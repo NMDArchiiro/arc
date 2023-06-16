@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface ICReportContentRepository extends JpaRepository<ICReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.ICReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.provision is null then 0 else entity.provision end)," +
@@ -32,5 +31,5 @@ public interface ICReportContentRepository extends JpaRepository<ICReportContent
             "and ((entity.icReport.hivReport.adminUnit.parent.id =:administrativeId and entity.icReport.hivReport.healthOrg is  null) " +
             " or (entity.icReport.hivReport.adminUnit.id =:administrativeId and entity.icReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<ICReportContentRequest> findTotalYear(Integer year, UUID administrativeId);
+    List<ICReportContentRequest> findTotalYear(Integer year, Long administrativeId);
 }

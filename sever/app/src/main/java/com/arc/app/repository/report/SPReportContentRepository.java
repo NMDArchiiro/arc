@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface SPReportContentRepository extends JpaRepository<SPReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.SPReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.amount is null then 0 else entity.amount end )) " +
@@ -28,5 +27,5 @@ public interface SPReportContentRepository extends JpaRepository<SPReportContent
             "and ((entity.spReport.hivReport.adminUnit.parent.id =:administrativeId and entity.spReport.hivReport.healthOrg is  null ) or " +
             "(entity.spReport.hivReport.adminUnit.id =:administrativeId and entity.spReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<SPReportContentRequest> findTotalYear(Integer year, UUID administrativeId);
+    List<SPReportContentRequest> findTotalYear(Integer year, Long administrativeId);
 }

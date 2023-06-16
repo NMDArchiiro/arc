@@ -9,6 +9,7 @@ import org.springframework.data.domain.Page;
  **/
 public interface HIVReportService {
     HIVReportRequest getHIVReport(Long id); // Tim theo id
+    Boolean makeDelete(Long id); // Khong xoa han
     HIVReportRequest exitsQuarter(HIVReportRequest request); // Quy da ton tai
     HIVReportRequest exitsYear(HIVReportRequest request); // Nam da tong tai
     HIVReportRequest createQuarterCommune(); // Khoi tao bao cao quy xa
@@ -21,5 +22,8 @@ public interface HIVReportService {
     HIVReportRequest changeStatus(Long idReport, Integer status, HIVReportRequest request); // Thay doi trang thai
     Page<HIVReportRequest> pagingQuarter(HIVReportSearchRequest dto);
     Page<HIVReportRequest> pagingYear(HIVReportSearchRequest dto);
-
+    HIVReportRequest totalDistrictQuarter(HIVReportRequest request);
+    HIVReportRequest totalDistrictYear(HIVReportRequest request);
+    HIVReportRequest totalProvinceQuarter(HIVReportRequest request);
+    HIVReportRequest totalProvinceYear(HIVReportRequest request);
 }

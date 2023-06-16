@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface MDReportContentRepository extends JpaRepository<MDReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.MDReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.numberMalePatient is null then 0 else entity.numberMalePatient end)," +
@@ -31,5 +30,5 @@ public interface MDReportContentRepository extends JpaRepository<MDReportContent
             "and ((entity.mdReport.hivReport.adminUnit.parent.id =:administrativeId and entity.mdReport.hivReport.healthOrg is null)  or " +
             "   (entity.mdReport.hivReport.adminUnit.id =:administrativeId and entity.mdReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<MDReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<MDReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, Long administrativeId);
 }

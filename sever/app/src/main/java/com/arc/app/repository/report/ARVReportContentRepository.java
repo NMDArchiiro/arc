@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface ARVReportContentRepository extends JpaRepository<ARVReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.ARVReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite, " +
             "sum(case when entity.numberMaleUnder15 is null then 0 else entity.numberMaleUnder15 end)," +
@@ -35,5 +34,5 @@ public interface ARVReportContentRepository extends JpaRepository<ARVReportConte
             "and ((entity.arvReport.hivReport.adminUnit.parent.id =:administrativeId and entity.arvReport.hivReport.healthOrg is null )  or " +
             "(entity.arvReport.hivReport.adminUnit.id =:administrativeId and entity.arvReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<ARVReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<ARVReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, Long administrativeId);
 }

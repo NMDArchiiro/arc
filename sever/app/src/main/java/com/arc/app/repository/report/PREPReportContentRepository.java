@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface PREPReportContentRepository extends JpaRepository<PREPReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.PREPReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.numberNCMT is null then 0 else entity.numberNCMT end)," +
@@ -35,5 +34,5 @@ public interface PREPReportContentRepository extends JpaRepository<PREPReportCon
             "   (entity.prepReport.hivReport.adminUnit.id =:administrativeId and " +
             "		entity.prepReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<PREPReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<PREPReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, Long administrativeId);
 }

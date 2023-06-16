@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface ATHReportContentRepository extends JpaRepository<ATHReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.ATHReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite, " +
             "sum(case when entity.numberAdviseMale is null then 0 else entity.numberAdviseMale end)," +
@@ -40,5 +39,5 @@ public interface ATHReportContentRepository extends JpaRepository<ATHReportConte
             "and ((entity.athReport.hivReport.adminUnit.parent.id =:administrativeId and entity.athReport.hivReport.healthOrg is  null ) or  " +
             "   (entity.athReport.hivReport.adminUnit.id =:administrativeId and entity.athReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<ATHReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<ATHReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, Long administrativeId);
 }

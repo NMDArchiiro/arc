@@ -34,5 +34,5 @@ public interface HIReportContentRepository extends JpaRepository<HIReportContent
             "and ((entity.hiReport.hivReport.adminUnit.parent.id =:administrativeId and entity.hiReport.hivReport.healthOrg is null )  or " +
             "(entity.hiReport.hivReport.adminUnit.id =:administrativeId and entity.hiReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<HIReportContentRequest> findTotalQuarterFor(Integer year, UUID administrativeId);
+    List<HIReportContentRequest> findTotalYear(Integer year, Long administrativeId);
 }

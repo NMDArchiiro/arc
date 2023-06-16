@@ -14,9 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface RPREPReportContentRepository extends JpaRepository<RPREPReportContent, Long> {
-    // Query tinh tong theo huyen
-    // DVTT is null, adminUnit lay parent -> huyen
-    // DVTT is not null, adminUnit -> huyen
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.RPREPReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.numberNCMT is null then 0 else entity.numberNCMT end)," +
@@ -31,8 +30,7 @@ public interface RPREPReportContentRepository extends JpaRepository<RPREPReportC
             "and entity.rprepReport.hivReport.status = 5 " +
             "and entity.rprepReport.hivReport.year = :year " +
             "and ((entity.rprepReport.hivReport.adminUnit.parent.id =:administrativeId and entity.rprepReport.hivReport.healthOrg is  null ) or " +
-            "   (entity.rprepReport.hivReport.adminUnit.id =:administrativeId and " +
-            "		entity.rprepReport.hivReport.healthOrg is not null )) " +
+            "(entity.rprepReport.hivReport.adminUnit.id =:administrativeId and entity.rprepReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<RPREPReportContentRequest> findTotalYear(Integer year, UUID administrativeId);
+    List<RPREPReportContentRequest> findTotalYear(Integer year, Long administrativeId);
 }

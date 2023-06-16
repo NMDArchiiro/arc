@@ -14,6 +14,8 @@ import java.util.UUID;
  **/
 @Repository
 public interface MTCReportContentRepository extends JpaRepository<MTCReportContent, Long> {
+    // Tinh tu huyen len
+    // Lay theo tinh or don vi truc thuoc huyen
     @Query("select new com.arc.app.request.report.MTCReportContentRequest(entity.content.id,entity.content.title,entity.content.indexNumber," +
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.amount is null then 0 else entity.amount end))" +
@@ -26,5 +28,5 @@ public interface MTCReportContentRepository extends JpaRepository<MTCReportConte
             "and ((entity.mtcReport.hivReport.adminUnit.parent.id =:administrativeId and entity.mtcReport.hivReport.healthOrg is null ) or " +
             "   (entity.mtcReport.hivReport.adminUnit.id =:administrativeId and entity.mtcReport.hivReport.healthOrg is not null )) " +
             "group by entity.content.id,entity.content.title,entity.content.indexNumber,entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics ")
-    List<MTCReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, UUID administrativeId);
+    List<MTCReportContentRequest> findTotalQuarterFor(Integer year, Integer quarter, Long administrativeId);
 }

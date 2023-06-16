@@ -141,4 +141,24 @@ public class RestHIVReportController {
     public Page<HIVReportRequest> pageYear(@RequestBody HIVReportSearchRequest request) {
         return hivReportService.pagingYear(request);
     }
+
+    @PostMapping("/total-district-quarter")
+    public HIVReportRequest totalDistrictQuarter(@RequestBody HIVReportRequest request) {
+        return hivReportService.totalDistrictQuarter(request);
+    }
+
+    @PostMapping("/total-province-quarter")
+    public HIVReportRequest totalProvinceQuarter(@RequestBody HIVReportRequest request) {
+        return hivReportService.totalProvinceQuarter(request);
+    }
+
+    @PostMapping("/total-district-year")
+    public HIVReportRequest totalDistrictYear(@RequestBody HIVReportRequest request) {
+        return hivReportService.totalDistrictYear(request);
+    }
+
+    @PostMapping("/total-province-year")
+    public HIVReportRequest totalProvinceYear(@RequestBody HIVReportRequest request) {
+        return hivReportService.totalProvinceYear(request);
+    }
 }
