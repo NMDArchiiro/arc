@@ -1,7 +1,10 @@
 package com.arc.app.rest;
 
 import com.arc.app.request.report.HIVReportRequest;
+import com.arc.app.request.search.HIVReportSearchRequest;
 import com.arc.app.service.report.HIVReportService;
+import com.arc.app.utils.enums.InputStatusEnum;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,7 +21,7 @@ public class RestHIVReportController {
 
     @GetMapping("/{id}")
     public ResponseEntity<HIVReportRequest> getById(@PathVariable("id") Long id) {
-        HIVReportRequest result = hivReportService.getHIVReportForm(id);
+        HIVReportRequest result = hivReportService.getHIVReport(id);
         return ResponseEntity.ok(result);
     }
 
@@ -69,6 +72,7 @@ public class RestHIVReportController {
         HIVReportRequest result = hivReportService.createQuarterProvince();
         return ResponseEntity.ok(result);
     }
+
     @GetMapping("/create-quarter-under-province")
     public ResponseEntity<HIVReportRequest> createQuarterUnderProvince() {
         HIVReportRequest result = hivReportService.createQuarterProvince();
@@ -91,5 +95,50 @@ public class RestHIVReportController {
     public ResponseEntity<HIVReportRequest> saveHIVReport(@RequestBody HIVReportRequest request) {
         HIVReportRequest result = hivReportService.saveHIVReport(request);
         return ResponseEntity.ok(result);
+    }
+
+    @PostMapping("/change-status-complete/{id}")
+    public HIVReportRequest changeStatusComplete(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.COMPLETE.getKey(), request);
+    }
+
+    @PostMapping("/change-status-confirm/{id}")
+    public HIVReportRequest changeStatusConfirm(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.SAME_CONFIRM.getKey(), request);
+    }
+
+    @PostMapping("/change-status-no-confirm/{id}")
+    public HIVReportRequest changeStatusNoConfirm(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.SAME_NO_CONFIRM.getKey(), request);
+    }
+
+    @PostMapping("/change-status-send/{id}")
+    public HIVReportRequest changeStatusSend(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.SEND_SUPERIORS.getKey(), request);
+    }
+
+    @PostMapping("/change-status-reject/{id}")
+    public HIVReportRequest changeStatusReject(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.REQUEST_EDIT.getKey(), request);
+    }
+
+    @PostMapping("/change-status-lock/{id}")
+    public HIVReportRequest changeStatusLock(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.LOCK.getKey(), request);
+    }
+
+    @PostMapping("/change-status-unlock/{id}")
+    public HIVReportRequest changeStatusUnlock(@PathVariable("id") Long id, @RequestBody HIVReportRequest request) {
+        return hivReportService.changeStatus(id, InputStatusEnum.UN_LOCK.getKey(), request);
+    }
+
+    @PostMapping("/page-quarter")
+    public Page<HIVReportRequest> pageQuarter(@RequestBody HIVReportSearchRequest request) {
+        return hivReportService.pagingQuarter(request);
+    }
+
+    @PostMapping("/page-year")
+    public Page<HIVReportRequest> pageYear(@RequestBody HIVReportSearchRequest request) {
+        return hivReportService.pagingYear(request);
     }
 }

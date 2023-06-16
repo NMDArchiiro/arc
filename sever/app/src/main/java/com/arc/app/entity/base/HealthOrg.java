@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_health_organization")
+@Table(name = "tbl_health_org")
 @Getter
 @Setter
-public class HealthOrganization extends BaseEntity{
+public class HealthOrg extends BaseEntity{
     @Column(name = "code", nullable = false)
     private String code;
 
@@ -35,9 +37,11 @@ public class HealthOrganization extends BaseEntity{
 
     @ManyToOne
     @JoinColumn(name = "parent_id")
-    private HealthOrganization parent;
+    private HealthOrg parent;
 
-    @JsonIgnore
     @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, orphanRemoval = true)
-    private Set<HealthOrganization> childrens;
+    private Set<HealthOrg> childrens;
+
+    @OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.ALL,mappedBy = "healthOrg",orphanRemoval = true)
+    List<AdminUnitHealthOrg> listAdminUnit = new ArrayList<>();
 }

@@ -79,7 +79,7 @@ public class User extends BaseEntity {
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "health_organization_id", nullable = true)
-    private HealthOrganization healthOrganization;
+    private HealthOrg healthOrg;
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
     @JoinColumn(name = "administrative_unit_id", nullable = true)

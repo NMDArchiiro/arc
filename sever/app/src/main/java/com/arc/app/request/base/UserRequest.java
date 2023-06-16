@@ -78,8 +78,8 @@ public class UserRequest {
             this.hasSPReport = entity.getHasSPReport();
             this.hasICReport = entity.getHasICReport();
             this.hasHIReport = entity.getHasHIReport();
-            if(entity.getHealthOrganization()!= null) {
-                this.healthOrganization = new HealthOrgRequest(entity.getHealthOrganization(), false);
+            if(entity.getHealthOrg()!= null) {
+                this.healthOrganization = new HealthOrgRequest(entity.getHealthOrg(), false);
             }
             if(entity.getProvince()!= null) {
                 this.province = new AdminUnitRequest(entity.getProvince(), false);

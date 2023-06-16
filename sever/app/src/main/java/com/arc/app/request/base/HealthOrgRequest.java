@@ -1,6 +1,7 @@
 package com.arc.app.request.base;
 
-import com.arc.app.entity.base.HealthOrganization;
+import com.arc.app.entity.base.AdminUnitHealthOrg;
+import com.arc.app.entity.base.HealthOrg;
 import com.arc.app.utils.constants.ValidationMessage;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -8,7 +9,9 @@ import lombok.Setter;
 import org.springframework.util.CollectionUtils;
 
 import javax.validation.constraints.NotNull;
+import java.util.ArrayList;
 import java.util.List;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,14 +26,15 @@ public class HealthOrgRequest {
     private AdminUnitRequest commune;
     private HealthOrgRequest parent;
     private List<HealthOrgRequest> children;
+    private List<AdminUnitRequest> listAdminUnit = new ArrayList<>();
 
-    public HealthOrgRequest(HealthOrganization entity, boolean isGetChildren) {
-        if(entity != null) {
+    public HealthOrgRequest(HealthOrg entity, boolean isGetChildren) {
+        if (entity != null) {
             this.id = entity.getId();
             this.code = entity.getCode();
             this.name = entity.getName();
             this.level = entity.getLevel();
-            if(entity.getCommune() != null) {
+            if (entity.getCommune() != null) {
                 // Xa
                 AdminUnitRequest commune = new AdminUnitRequest();
                 commune.setId(entity.getCommune().getId());
@@ -38,7 +42,7 @@ public class HealthOrgRequest {
                 commune.setName(entity.getCommune().getName());
                 this.commune = commune;
             }
-            if(entity.getDistrict() != null) {
+            if (entity.getDistrict() != null) {
                 // Huyen
                 AdminUnitRequest district = new AdminUnitRequest();
                 district.setId(entity.getDistrict().getId());
@@ -46,7 +50,7 @@ public class HealthOrgRequest {
                 district.setName(entity.getDistrict().getName());
                 this.district = district;
             }
-            if(entity.getProvince() != null) {
+            if (entity.getProvince() != null) {
                 // Tinh
                 AdminUnitRequest province = new AdminUnitRequest();
                 province.setId(entity.getProvince().getId());
@@ -54,13 +58,21 @@ public class HealthOrgRequest {
                 province.setName(entity.getProvince().getName());
                 this.province = province;
             }
-            if(entity.getParent() != null) {
+            if (entity.getParent() != null) {
                 this.parent = new HealthOrgRequest(entity.getParent(), false);
             }
-            if(isGetChildren && !CollectionUtils.isEmpty(entity.getChildrens())) {
-                for(HealthOrganization children : entity.getChildrens()) {
+            if (isGetChildren && !CollectionUtils.isEmpty(entity.getChildrens())) {
+                for (HealthOrg children : entity.getChildrens()) {
                     this.children.add(new HealthOrgRequest(children, false));
                 }
+            }
+            if (!CollectionUtils.isEmpty(entity.getListAdminUnit())) {
+                for (AdminUnitHealthOrg adminUnitHealthOrg : entity.getListAdminUnit()) {
+                    if (adminUnitHealthOrg.getAdminUnit() != null) {
+                        this.listAdminUnit.add(new AdminUnitRequest(adminUnitHealthOrg.getAdminUnit(), false));
+                    }
+                }
+
             }
         }
     }

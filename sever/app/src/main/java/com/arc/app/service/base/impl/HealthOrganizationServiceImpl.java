@@ -1,7 +1,7 @@
 package com.arc.app.service.base.impl;
 
 import com.arc.app.entity.base.AdminUnit;
-import com.arc.app.entity.base.HealthOrganization;
+import com.arc.app.entity.base.HealthOrg;
 import com.arc.app.repository.base.AdminUnitRepository;
 import com.arc.app.repository.base.HealthOrgRepository;
 import com.arc.app.request.base.HealthOrgRequest;
@@ -38,8 +38,8 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public ResponseObject find(Long id) {
         try {
-            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
-            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, true));
+            HealthOrg healthOrg = healthOrgRepository.findById(id).orElse(null);
+            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrg, true));
         } catch (Exception e) {
             return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
         }
@@ -58,33 +58,33 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public ResponseObject save(HealthOrgRequest request) {
         try {
-            HealthOrganization healthOrganization = null;
+            HealthOrg healthOrg = null;
             if(request.getId()!= null) {
-                healthOrganization = healthOrgRepository.findById(request.getId()).orElse(null);
+                healthOrg = healthOrgRepository.findById(request.getId()).orElse(null);
             }
-            if(healthOrganization == null) {
-                healthOrganization = new HealthOrganization();
+            if(healthOrg == null) {
+                healthOrg = new HealthOrg();
             }
-            healthOrganization.setCode(request.getCode());
-            healthOrganization.setName(request.getName());
+            healthOrg.setCode(request.getCode());
+            healthOrg.setName(request.getName());
             if(request.getParent() != null && request.getParent().getId() != null) {
-                HealthOrganization parent = healthOrgRepository.findById(request.getParent().getId()).orElse(null);
-                healthOrganization.setParent(parent);
+                HealthOrg parent = healthOrgRepository.findById(request.getParent().getId()).orElse(null);
+                healthOrg.setParent(parent);
             }
             if(request.getProvince() != null && request.getProvince().getId()!= null) {
                 AdminUnit province = adminUnitRepository.findById(request.getProvince().getId()).orElse(null);
-                healthOrganization.setProvince(province);
+                healthOrg.setProvince(province);
             }
             if(request.getDistrict() != null && request.getDistrict().getId()!= null) {
                 AdminUnit district = adminUnitRepository.findById(request.getDistrict().getId()).orElse(null);
-                healthOrganization.setDistrict(district);
+                healthOrg.setDistrict(district);
             }
             if(request.getCommune() != null && request.getCommune().getId()!= null) {
                 AdminUnit commune = adminUnitRepository.findById(request.getCommune().getId()).orElse(null);
-                healthOrganization.setCommune(commune);
+                healthOrg.setCommune(commune);
             }
-            healthOrgRepository.save(healthOrganization);
-            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, false));
+            healthOrgRepository.save(healthOrg);
+            return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrg, false));
         } catch (Exception e) {
             return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
         }
@@ -93,9 +93,9 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public Boolean delete(Long id) {
         if(id != null) {
-            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
-            if(healthOrganization != null) {
-                healthOrgRepository.delete(healthOrganization);
+            HealthOrg healthOrg = healthOrgRepository.findById(id).orElse(null);
+            if(healthOrg != null) {
+                healthOrgRepository.delete(healthOrg);
                 return true;
             }
         }
@@ -105,11 +105,11 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
     @Override
     public ResponseObject setLocked(Long id) {
         if(id != null) {
-            HealthOrganization healthOrganization = healthOrgRepository.findById(id).orElse(null);
-            if(healthOrganization != null) {
-                healthOrganization.setLocked(true);
-                healthOrgRepository.save(healthOrganization);
-                return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrganization, false));
+            HealthOrg healthOrg = healthOrgRepository.findById(id).orElse(null);
+            if(healthOrg != null) {
+                healthOrg.setLocked(true);
+                healthOrgRepository.save(healthOrg);
+                return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrg, false));
             }
         }
         return new ResponseObject(ResponseEnum.ERROR.getStatus(), ResponseEnum.ERROR.getMessage(), null);
@@ -125,8 +125,8 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
             } else {
                 pageIndex = 0;
             }
-            String sqlSelect = "select new com.arc.app.request.base.HealthOrgRequest(e, true) from HealthOrganization e ";
-            String sqlCount = "select count(e) from HealthOrganization e ";
+            String sqlSelect = "select new com.arc.app.request.base.HealthOrgRequest(e, true) from HealthOrg e ";
+            String sqlCount = "select count(e) from HealthOrg e ";
             String orderBy = " order by e.createDate desc";
             String where = " where (e.locked is null or e.locked is false) ";
             if(request.getParentId() != null) {
