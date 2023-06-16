@@ -51,7 +51,7 @@ public class DashboardNotificationServiceImpl implements DashboardNotificationSe
     @Resource
     private AdminUnitService adminUnitService;
 
-    private static Logger LOG = LoggerFactory.getLogger(HIVReportServiceImpl.class);
+    private static Logger LOG = LoggerFactory.getLogger(DashboardNotificationServiceImpl.class);
 
     @Override
     public DashboardNotification getNotificationReport() {

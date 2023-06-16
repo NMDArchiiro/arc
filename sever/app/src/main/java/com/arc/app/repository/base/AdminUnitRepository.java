@@ -21,4 +21,7 @@ public interface AdminUnitRepository extends JpaRepository<AdminUnit, Long> {
             "where (e.locked is null OR e.locked = false) " +
             "and e.parent is null order by e.code")
     List<AdminUnitDto> findAllParentSimple();
+
+    @Query("Select e From AdminUnit e Where (e.locked is null OR e.locked = false) AND e.parent is not null and e.parent.parent is not null and e.level = :level")
+    List<AdminUnit> getAllCommune(Integer level);
 }

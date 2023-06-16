@@ -5,9 +5,11 @@ import com.arc.app.request.report.HIVReportRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -263,7 +265,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:orgId is null or entity.healthOrg.id = :orgId )  "+
             "and (:provinceId is null or entity.province.id =:provinceId) " +
             "and (:districtId is null or  entity.district.id =:districtId ) " +
-            "and (:wardId is null or  entity.commune.id =:wardId ) " +
+            "and (:communeId is null or  entity.commune.id =:communeId ) " +
             "and (:orgId is null or entity.healthOrg.id =:orgId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
                     "where (entity.locked is null or entity.locked = false) " +
@@ -274,9 +276,9 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
                     "and (:orgId is null or entity.healthOrg.id = :orgId )  "+
                     "and (:provinceId is null or entity.province.id =:provinceId) " +
                     "and (:districtId is null or  entity.district.id =:districtId ) " +
-                    "and (:wardId is null or  entity.commune.id =:wardId ) " +
+                    "and (:communeId is null or  entity.commune.id =:communeId ) " +
                     "and (:orgId is null or entity.healthOrg.id =:orgId)")
-    Page<HIVReportRequest> getPageYearUnderDistrict(Integer year, Long provinceId, Long districtId,Long wardId, Long orgId, Pageable pageable);
+    Page<HIVReportRequest> getPageYearUnderDistrict(Integer year, Long provinceId, Long districtId,Long communeId, Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
             "where (entity.locked is null or entity.locked = false) " +
@@ -330,4 +332,39 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and entity.year =:year " +
             "and ((entity.adminUnit.id in :ids and entity.healthOrg is null ) or entity.healthOrg.id in :ids)")
     List<HIVReportRequest> findAccountParent(List<Long> ids, Integer year, Integer quarter);
+    
+    // Quyery set lock (khoa bao cao)
+    @Transactional
+    @Query(value = "update HIVReport entity set entity.isLock = true " +
+            "where entity.quarter is not null and entity.year =:year and entity.quarter =:quarter " +
+            "and (entity.commune is not null or (entity.commune is null and entity.district is not null and entity.healthOrg is not null))")
+    @Modifying
+    Integer lockQuarterCommune(Integer year,Integer quarter);
+    @Transactional
+    @Query(value = "update HIVReport entity set entity.isLock = true " +
+            "where entity.quarter is not null and entity.year =:year and entity.quarter =:quarter " +
+            "and ((entity.commune is null and  entity.district is not null and entity.healthOrg is null)" +
+            "   or (entity.commune is null and entity.district is null and entity.healthOrg is not null))")
+    @Modifying
+    Integer lockQuarterDistrict(Integer year,Integer quarter);
+    @Transactional
+    @Query(value = "update HIVReport entity set entity.isLock = true " +
+            "where entity.quarter is not null and entity.year =:year and entity.quarter =:quarter " +
+            "and (entity.commune is null and  entity.district is null and entity.healthOrg is null)")
+    @Modifying
+    Integer lockQuarterProvince(Integer year,Integer quarter);
+
+    @Transactional
+    @Query(value = "update HIVReport entity set entity.isLock = true " +
+            "where entity.quarter is null and entity.year =:year  " +
+            "and ((entity.commune is null and  entity.district is not null and entity.healthOrg is null)" +
+            "   or (entity.commune is null and entity.district is null and entity.healthOrg is not null))")
+    @Modifying
+    Integer lockYearDistrict(Integer year);
+    @Transactional
+    @Query(value = "update HIVReport entity set entity.isLock = true " +
+            "where entity.quarter is null and entity.year =:year " +
+            "and (entity.commune is null and  entity.district is null and entity.healthOrg is null)")
+    @Modifying
+    Integer lockYearProvince(Integer year);
 }
