@@ -1,3 +1,4 @@
+
 package com.arc.app.request.report;
 
 import com.arc.app.entity.report.HIVReport;
@@ -25,6 +26,7 @@ public class HIVReportRequest {
     private String note;
     private Boolean isLock;
     private Date modifyDate;
+    private String reporter;
     private AdminUnitRequest province;
     private AdminUnitRequest district;
     private AdminUnitRequest commune;
@@ -61,6 +63,7 @@ public class HIVReportRequest {
             this.note = entity.getNote();
             this.isLock = entity.getIsLock();
             this.modifyDate = entity.getLastModifiedDate();
+            this.reporter = entity.getReporter();
             if (entity.getAdminUnit() != null && entity.getAdminUnit().getLevel() != null) {
                 switch (entity.getAdminUnit().getLevel()) {
                     case HIVConstants.LEVEL_PROVINCE:

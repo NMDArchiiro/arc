@@ -17,7 +17,7 @@ public class NotificationReport {
     private Integer quarter;
     private String note;
     private String type;
-    private String owner;
+    private String reporter;
 
     public NotificationReport(Long id, String name) {
         this.id = id;

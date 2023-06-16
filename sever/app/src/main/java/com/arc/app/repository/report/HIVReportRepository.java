@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.UUID;
 
 /**
  * author: NMDuc
@@ -315,4 +316,18 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
                     "and (:districtId is null or entity.adminUnit.id = :districtId )")
     Page<HIVReportRequest> getPageYearAffiliateDistrict(Integer year,Long provinceId,Long districtId,Long orgId, Pageable pageable);
     // Page year start
+
+    @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
+            "where (entity.locked is null or entity.locked = false) " +
+            "and ((entity.quarter is null and entity.year =:yearSearch) " +
+            "   or (entity.quarter is not null and entity.quarter =:quarter and entity.year =:year)) " +
+            "and ((entity.adminUnit.id in :ids and entity.healthOrg is null ) or entity.healthOrg.id in :ids)")
+    List<HIVReportRequest> findAccountParent(List<Long> ids, Integer year, Integer quarter, Integer yearSearch);
+
+    @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
+            "where (entity.locked is null or entity.locked = false) " +
+            "and ((:quarter is null and entity.quarter is null) or (entity.quarter =:quarter)) " +
+            "and entity.year =:year " +
+            "and ((entity.adminUnit.id in :ids and entity.healthOrg is null ) or entity.healthOrg.id in :ids)")
+    List<HIVReportRequest> findAccountParent(List<Long> ids, Integer year, Integer quarter);
 }

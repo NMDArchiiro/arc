@@ -1,9 +1,13 @@
 package com.arc.app.service.base.impl;
 
 import com.arc.app.entity.base.AdminUnit;
+import com.arc.app.entity.base.HealthOrg;
 import com.arc.app.repository.base.AdminUnitRepository;
+import com.arc.app.repository.base.HealthOrgRepository;
 import com.arc.app.request.base.AdminUnitImportRequest;
 import com.arc.app.request.base.AdminUnitRequest;
+import com.arc.app.request.base.HealthOrgRequest;
+import com.arc.app.request.dto.AdminUnitDto;
 import com.arc.app.request.search.SearchRequest;
 import com.arc.app.response.ResponseObject;
 import com.arc.app.service.base.AdminUnitService;
@@ -26,6 +30,7 @@ import javax.persistence.Query;
 import javax.transaction.Transactional;
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 @Transactional
@@ -36,6 +41,9 @@ public class AdminUnitServiceImpl implements AdminUnitService {
 
     @PersistenceContext
     private EntityManager manager;
+
+    @Resource
+    private HealthOrgRepository healthOrgRepository;
 
     @Override
     public ResponseObject find(Long id) {
@@ -211,6 +219,15 @@ public class AdminUnitServiceImpl implements AdminUnitService {
         }
     }
 
+    @Override
+    public List<Object> getCurrent(Long id) {
+        AdminUnit adminUnit = adminUnitRepository.findById(id).orElse(null);
+        if(adminUnit!=null){
+            return Collections.singletonList(setChildren(new AdminUnitDto(adminUnit)));
+        }
+        return new ArrayList<>();
+    }
+
     public List<AdminUnitImportRequest> readDataFromExcel(InputStream inputStream) {
         List<AdminUnitImportRequest> result = new ArrayList<>();
         try {
@@ -306,5 +323,25 @@ public class AdminUnitServiceImpl implements AdminUnitService {
         } catch (Exception e) {
             return result;
         }
+    }
+
+    private AdminUnitDto setChildren(AdminUnitDto dto) {
+        if(dto!=null && dto.getId()!=null && dto.getLevel()!=null && dto.getLevel()<5){
+            List<HealthOrgRequest> healths = healthOrgRepository.getHealthOrganizationByAdminUnit(dto.getId(),null,dto.getLevel());
+            List<Object> rs = new ArrayList<>(healths);
+            if(dto.getChildren()!=null){
+                dto.getChildren().addAll(healths);
+            }else{
+                dto.setChildren(rs);
+            }
+            if(!CollectionUtils.isEmpty(dto.getChildren())){
+                for(Object child : dto.getChildren()){
+                    if(child instanceof AdminUnitDto){
+                        child = setChildren((AdminUnitDto) child);
+                    }
+                }
+            }
+        }
+        return dto;
     }
 }

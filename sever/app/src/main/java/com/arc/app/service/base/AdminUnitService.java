@@ -6,6 +6,8 @@ import com.arc.app.response.ResponseObject;
 import org.springframework.data.domain.Page;
 
 import java.io.InputStream;
+import java.util.List;
+import java.util.UUID;
 
 public interface AdminUnitService {
     ResponseObject find(Long id);
@@ -15,4 +17,5 @@ public interface AdminUnitService {
     ResponseObject setLocked(Long id);
     Page<AdminUnitRequest> getPage(SearchRequest request);
     ResponseObject saveListData(InputStream inputStream);
+    List<Object> getCurrent(Long id);
 }
