@@ -27,7 +27,7 @@ public class CronTaskExpressionRequest {
     private String dayOfWeek;
     private String cronString;
     private String description;
-    private Boolean locked;
+    private Boolean voided;
 
     public CronTaskExpressionRequest(CronTaskExpression entity) {
         if (entity != null) {
@@ -44,7 +44,7 @@ public class CronTaskExpressionRequest {
             this.dayOfWeek = entity.getDayOfWeek();
             this.cronString = entity.getCronString();
             this.description = entity.getDescription();
-            this.locked = entity.getLocked();
+            this.voided = entity.getVoided();
         }
     }
 

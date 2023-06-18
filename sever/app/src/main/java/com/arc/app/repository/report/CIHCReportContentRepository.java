@@ -26,7 +26,7 @@ public interface CIHCReportContentRepository extends JpaRepository<CIHCReportCon
             "sum(case when entity.numberTotalOver15 is null then 0 else entity.numberTotalOver15 end), " +
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from CIHCReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.cihcReport.hivReport.quarter is null " +
             "and entity.cihcReport.hivReport.status = 5 " +
             "and entity.cihcReport.hivReport.year = :year " +

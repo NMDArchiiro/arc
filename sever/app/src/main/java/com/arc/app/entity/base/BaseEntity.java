@@ -15,7 +15,7 @@ public class BaseEntity extends AuditableEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     protected Long id;
 
-    @Column(name = "locked")
-    protected Boolean locked;
+    @Column(name = "voided")
+    protected Boolean voided;
 
 }

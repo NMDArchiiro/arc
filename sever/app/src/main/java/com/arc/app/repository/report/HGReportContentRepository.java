@@ -21,7 +21,7 @@ public interface HGReportContentRepository extends JpaRepository<HGReportContent
             "sum(case when entity.numberManage is null then 0 else entity.numberManage end)," +
             "sum(case when entity.numberEstimate is null then 0 else entity.numberEstimate end)) " +
             "from HGReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.hgReport.hivReport.quarter is null " +
             "and entity.hgReport.hivReport.status = 5 " +
             "and entity.hgReport.hivReport.year = :year " +

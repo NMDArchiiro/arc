@@ -11,11 +11,11 @@ import java.util.UUID;
 
 @Repository
 public interface HealthOrgRepository extends JpaRepository<HealthOrg, Long> {
-    @Query(value = "select count(e) from HealthOrg e where (e.locked is null  or e.locked is false) and e.code like :code")
+    @Query(value = "select count(e) from HealthOrg e where (e.voided is null  or e.voided is false) and e.code like :code")
     Long countDuplicate(String code);
 
     @Query("select new com.arc.app.request.base.HealthOrgRequest(entity, false) From HealthOrg entity" +
-            " Where (entity.locked is null OR entity.locked = false) " +
+            " Where (entity.voided is null OR entity.voided = false) " +
             "and (entity.province.id =:adminUnitId or entity.district.id =:adminUnitId or entity.commune.id =:adminUnitId) " +
             "and (:healOrgId is null OR entity.id = :healOrgId) " +
             "and (:type is null or entity.level = :level)")

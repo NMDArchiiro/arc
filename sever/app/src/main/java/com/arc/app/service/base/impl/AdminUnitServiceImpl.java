@@ -106,7 +106,7 @@ public class AdminUnitServiceImpl implements AdminUnitService {
         if(id != null) {
             AdminUnit adminUnit = adminUnitRepository.findById(id).orElse(null);
             if(adminUnit != null) {
-                adminUnit.setLocked(true);
+                adminUnit.setVoided(true);
                 adminUnitRepository.save(adminUnit);
                 return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), adminUnit);
             }

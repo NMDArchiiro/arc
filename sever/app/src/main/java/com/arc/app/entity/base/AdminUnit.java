@@ -8,7 +8,7 @@ import javax.persistence.*;
 import java.util.Set;
 
 @Entity
-@Table(name = "tbl_administrative_unit")
+@Table(name = "tbl_admin_unit")
 @Getter
 @Setter
 public class AdminUnit extends BaseEntity{

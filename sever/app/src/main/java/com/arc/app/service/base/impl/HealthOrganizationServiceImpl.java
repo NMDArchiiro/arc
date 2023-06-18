@@ -107,7 +107,7 @@ public class HealthOrganizationServiceImpl implements HealthOrganizationService 
         if(id != null) {
             HealthOrg healthOrg = healthOrgRepository.findById(id).orElse(null);
             if(healthOrg != null) {
-                healthOrg.setLocked(true);
+                healthOrg.setVoided(true);
                 healthOrgRepository.save(healthOrg);
                 return new ResponseObject(ResponseEnum.SUCCESS.getStatus(), ResponseEnum.SUCCESS.getMessage(), new HealthOrgRequest(healthOrg, false));
             }

@@ -24,7 +24,7 @@ public interface ICReportContentRepository extends JpaRepository<ICReportContent
             "sum(case when entity.reviews is null then 0 else entity.reviews end)," +
             "sum(case when entity.capacityBuilding is null then 0 else entity.capacityBuilding end )) " +
             "from ICReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.icReport.hivReport.quarter is null " +
             "and entity.icReport.hivReport.status = 5 " +
             "and entity.icReport.hivReport.year = :year " +

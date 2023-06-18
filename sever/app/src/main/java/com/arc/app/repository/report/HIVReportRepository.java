@@ -19,7 +19,7 @@ import java.util.UUID;
 @Repository
 public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     @Query(value = "Select entity from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter = :quarter)" +
             "and (entity.year = :year)" +
             "and (entity.adminUnit.id = :adminUnitId) " +
@@ -27,14 +27,14 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     List<HIVReport> hivReportExistQuarter(Integer quarter, Integer year, Long adminUnitId, Long orgId);
 
     @Query(value = "Select entity from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is null) " +
             "and (entity.year = :year)" +
             "and (entity.adminUnit.id = :adminUnitId) " +
             "and ((:orgId is null and entity.healthOrg is null) or entity.healthOrg.id = :orgId )")
     List<HIVReport> hivReportExistYear(Integer year, Long adminUnitId, Long orgId);
 
-    @Query(value = "select entity from HIVReport entity  where (entity.locked is null or entity.locked is false) " +
+    @Query(value = "select entity from HIVReport entity  where (entity.voided is null or entity.voided is false) " +
             "and (entity.year = :year) " +
             "and (entity.adminUnit.id = :adminUnitId) " +
             "and ((:quarter is null and entity.quarter is null) or (entity.quarter = :quarter)) " +
@@ -43,7 +43,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
 
     // Page quarter start
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -52,7 +52,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.adminUnit.id =:provinceId) " +
             "and (coalesce(:provinceIds,null) is null or entity.adminUnit.id in :provinceIds) ",
             countQuery = "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -63,7 +63,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterProvince(Integer quarter, Integer year, Long provinceId, List<Long> provinceIds, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -74,7 +74,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:districtId is null or  entity.district.id =:districtId ) " +
             "and (:orgId is null or entity.healthOrg.id =:orgId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -87,7 +87,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterUnderProvince(Integer quarter, Integer year, Long provinceId, Long districtId, Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -96,7 +96,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.province.id =:provinceId) " +
             "and (:districtId is null or entity.district.id =:districtId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -107,7 +107,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterDistrict(Integer quarter,Integer year,Long provinceId,Long districtId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -119,7 +119,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:communeId is null or  entity.commune.id =:communeId ) " +
             "and (:orgId is null or entity.healthOrg.id =:orgId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -133,7 +133,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterUnderDistrict(Integer quarter, Integer year, Long provinceId, Long districtId,Long communeId, Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -143,7 +143,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:communeId is null or  entity.commune.id =:communeId ) " +
             "and (:districtId is null or entity.district.id =:districtId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -155,7 +155,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterCommune(Integer quarter,Integer year,Long provinceId,Long districtId,Long communeId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -164,7 +164,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:orgId is null or entity.healthOrg.id = :orgId )  "+
             "and (:provinceId is null or entity.adminUnit.id =:provinceId) " ,
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -175,7 +175,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageQuarterAffiliateProvince(Integer quarter,Integer year,Long provinceId,Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is not null) " +
             "and (:quarter is null or entity.quarter = :quarter) " +
             "and (:year is null or entity.year = :year) " +
@@ -185,7 +185,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.adminUnit.parent.id =:provinceId) " +
             "and (:districtId is null or entity.adminUnit.id = :districtId ) ",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is not null) " +
                     "and (:quarter is null or entity.quarter = :quarter) " +
                     "and (:year is null or entity.year = :year) " +
@@ -199,7 +199,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
 
     // Page year start
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is  null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.healthOrg is null " +
@@ -207,7 +207,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.adminUnit.id =:provinceId) " +
             "and (coalesce(:provinceIds,null) is null or entity.adminUnit.id in :provinceIds) ",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is  null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.healthOrg is null " +
@@ -217,7 +217,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageYearProvince(Integer year,Long provinceId,List<Long> provinceIds, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.commune is null " +
@@ -227,7 +227,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:districtId is null or  entity.district.id =:districtId ) " +
             "and (:orgId is null or entity.healthOrg.id =:orgId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.commune is null " +
@@ -239,7 +239,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageYearUnderProvince(Integer year, Long provinceId, Long districtId, Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is  null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.healthOrg is null " +
@@ -247,7 +247,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.province.id =:provinceId) " +
             "and (:districtId is null or entity.district.id =:districtId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is  null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.healthOrg is null " +
@@ -257,7 +257,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageYearDistrict(Integer year,Long provinceId,Long districtId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.district is not null " +
@@ -268,7 +268,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:communeId is null or  entity.commune.id =:communeId ) " +
             "and (:orgId is null or entity.healthOrg.id =:orgId)",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.district is not null " +
@@ -281,7 +281,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageYearUnderDistrict(Integer year, Long provinceId, Long districtId,Long communeId, Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.adminUnit.parent is null "+
@@ -289,7 +289,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:orgId is null or entity.healthOrg.id = :orgId )  "+
             "and (:provinceId is null or entity.adminUnit.id =:provinceId) ",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.adminUnit.parent is null "+
@@ -299,7 +299,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     Page<HIVReportRequest> getPageYearAffiliateProvince(Integer year,Long provinceId,Long orgId, Pageable pageable);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and (entity.quarter is null) " +
             "and (:year is null or entity.year = :year) " +
             "and entity.adminUnit.parent.parent is null "+
@@ -308,7 +308,7 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
             "and (:provinceId is null or entity.adminUnit.parent.id =:provinceId) " +
             "and (:districtId is null or entity.adminUnit.id = :districtId ) ",
             countQuery =  "select count(entity.id) from HIVReport entity " +
-                    "where (entity.locked is null or entity.locked = false) " +
+                    "where (entity.voided is null or entity.voided = false) " +
                     "and (entity.quarter is null) " +
                     "and (:year is null or entity.year = :year) " +
                     "and entity.adminUnit.parent.parent is null "+
@@ -320,14 +320,14 @@ public interface HIVReportRepository extends JpaRepository<HIVReport, Long> {
     // Page year start
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and ((entity.quarter is null and entity.year =:yearSearch) " +
             "   or (entity.quarter is not null and entity.quarter =:quarter and entity.year =:year)) " +
             "and ((entity.adminUnit.id in :ids and entity.healthOrg is null ) or entity.healthOrg.id in :ids)")
     List<HIVReportRequest> findAccountParent(List<Long> ids, Integer year, Integer quarter, Integer yearSearch);
 
     @Query(value = "select new com.arc.app.request.report.HIVReportRequest(entity) from HIVReport entity " +
-            "where (entity.locked is null or entity.locked = false) " +
+            "where (entity.voided is null or entity.voided = false) " +
             "and ((:quarter is null and entity.quarter is null) or (entity.quarter =:quarter)) " +
             "and entity.year =:year " +
             "and ((entity.adminUnit.id in :ids and entity.healthOrg is null ) or entity.healthOrg.id in :ids)")

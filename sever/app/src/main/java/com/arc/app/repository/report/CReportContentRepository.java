@@ -23,7 +23,7 @@ public interface CReportContentRepository extends JpaRepository<CReportContent, 
             "sum(case when entity.numberUnknown is null then 0 else entity.numberUnknown end)," +
             "sum(case when entity.total is null then 0 else entity.total end)) " +
             "from CReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.cReport.hivReport.quarter is not null " +
             "and entity.cReport.hivReport.status = 5 " +
             "and entity.cReport.hivReport.quarter = :quarter " +

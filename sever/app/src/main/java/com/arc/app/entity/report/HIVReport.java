@@ -10,7 +10,7 @@ import lombok.Setter;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "tbl_hiv_report_form")
+@Table(name = "tbl_hiv_report")
 @Getter
 @Setter
 public class HIVReport extends BaseEntity {

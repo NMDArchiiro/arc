@@ -25,7 +25,7 @@ public interface PREPReportContentRepository extends JpaRepository<PREPReportCon
             "sum(case when entity.numberOther is null then 0 else entity.numberOther end)," +
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from PREPReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.prepReport.hivReport.quarter is not null " +
             "and entity.prepReport.hivReport.status = 5 " +
             "and entity.prepReport.hivReport.quarter = :quarter " +

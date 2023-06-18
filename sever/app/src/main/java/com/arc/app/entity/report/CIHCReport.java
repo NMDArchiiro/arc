@@ -11,7 +11,7 @@ import java.util.Set;
  * author: NMDuc
  **/
 @Entity
-@Table(name = "tbl_cihc_repor")
+@Table(name = "tbl_cihc_report")
 @Getter
 @Setter
 public class CIHCReport extends BaseEntity {

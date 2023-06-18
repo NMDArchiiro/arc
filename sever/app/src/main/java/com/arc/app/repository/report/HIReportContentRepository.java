@@ -27,7 +27,7 @@ public interface HIReportContentRepository extends JpaRepository<HIReportContent
             "sum(case when entity.numberTotalOver15 is null then 0 else entity.numberTotalOver15 end), " +
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from HIReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.hiReport.hivReport.quarter is null " +
             "and entity.hiReport.hivReport.status = 5 " +
             "and entity.hiReport.hivReport.year = :year " +

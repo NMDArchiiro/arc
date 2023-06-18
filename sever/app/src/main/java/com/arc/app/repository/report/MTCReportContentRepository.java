@@ -20,7 +20,7 @@ public interface MTCReportContentRepository extends JpaRepository<MTCReportConte
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.amount is null then 0 else entity.amount end))" +
             "from MTCReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.mtcReport.hivReport.quarter is not null " +
             "and entity.mtcReport.hivReport.status = 5 " +
             "and entity.mtcReport.hivReport.quarter = :quarter " +

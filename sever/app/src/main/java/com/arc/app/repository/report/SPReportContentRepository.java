@@ -20,7 +20,7 @@ public interface SPReportContentRepository extends JpaRepository<SPReportContent
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.amount is null then 0 else entity.amount end )) " +
             "from SPReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.spReport.hivReport.quarter is null " +
             "and entity.spReport.hivReport.status = 5 " +
             "and entity.spReport.hivReport.year = :year " +

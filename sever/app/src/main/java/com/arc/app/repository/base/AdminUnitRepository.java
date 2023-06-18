@@ -11,17 +11,17 @@ import java.util.List;
 
 @Repository
 public interface AdminUnitRepository extends JpaRepository<AdminUnit, Long> {
-    @Query(value = "select count(e) from AdminUnit e where (e.locked is null  or e.locked is false) and e.code like :code")
+    @Query(value = "select count(e) from AdminUnit e where (e.voided is null  or e.voided is false) and e.code like :code")
     Long countDuplicate(String code);
 
-    @Query(value = "select new com.arc.app.request.base.AdminUnitRequest(e, false ) from AdminUnit e where (e.locked is null  or e.locked is false) and e.code like :code")
+    @Query(value = "select new com.arc.app.request.base.AdminUnitRequest(e, false ) from AdminUnit e where (e.voided is null  or e.voided is false) and e.code like :code")
     List<AdminUnitRequest> findDuplicateCode(String code);
 
     @Query("select new com.arc.app.request.dto.AdminUnitDto(e,true) from AdminUnit e " +
-            "where (e.locked is null OR e.locked = false) " +
+            "where (e.voided is null OR e.voided = false) " +
             "and e.parent is null order by e.code")
     List<AdminUnitDto> findAllParentSimple();
 
-    @Query("Select e From AdminUnit e Where (e.locked is null OR e.locked = false) AND e.parent is not null and e.parent.parent is not null and e.level = :level")
+    @Query("Select e From AdminUnit e Where (e.voided is null OR e.voided = false) AND e.parent is not null and e.parent.parent is not null and e.level = :level")
     List<AdminUnit> getAllCommune(Integer level);
 }

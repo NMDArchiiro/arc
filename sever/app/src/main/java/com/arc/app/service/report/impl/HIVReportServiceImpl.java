@@ -125,7 +125,7 @@ public class HIVReportServiceImpl implements HIVReportService {
         try {
             HIVReport hivReport = hivReportRepository.findById(id).orElse(null);
             if (hivReport != null) {
-                hivReport.setLocked(true);
+                hivReport.setVoided(true);
                 hivReportRepository.save(hivReport);
                 return true;
             }
@@ -747,9 +747,9 @@ public class HIVReportServiceImpl implements HIVReportService {
         HIVReport hivReport = hivReportRepository.findById(idReport).orElse(null);
         if (hivReport != null && status != null) {
             if (status.equals(InputStatusEnum.LOCK.getKey())) {
-                hivReport.setLocked(true);
+                hivReport.setIsLock(true);
             } else if (status.equals(InputStatusEnum.UN_LOCK.getKey())) {
-                hivReport.setLocked(false);
+                hivReport.setIsLock(false);
             } else {
                 hivReport.setStatus(status);
             }

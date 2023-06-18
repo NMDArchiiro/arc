@@ -20,7 +20,7 @@ public interface POCReportContentRepository extends JpaRepository<POCReportConte
             "entity.content.reportNumber,entity.content.subContent,entity.content.bold,entity.content.italics,entity.content.canWrite," +
             "sum(case when entity.amount is null then 0 else entity.amount end))" +
             "from POCReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.pocReport.hivReport.quarter is not null " +
             "and entity.pocReport.hivReport.status = 5 " +
             "and entity.pocReport.hivReport.quarter = :quarter " +

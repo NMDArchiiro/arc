@@ -22,7 +22,7 @@ public interface HRIReportContentRepository extends JpaRepository<HRIReportConte
             "sum(case when entity.numberCondom is null then 0 else entity.numberCondom end)," +
             "sum(case when entity.numberLubricant is null then 0 else entity.numberLubricant end)) " +
             "from HRIReportContent entity " +
-            "Where (entity.locked is null OR entity.locked is false ) " +
+            "Where (entity.voided is null OR entity.voided is false ) " +
             "and entity.hriReport.hivReport.status = 5 " +
             "and entity.hriReport.hivReport.quarter is not null " +
             "and entity.hriReport.hivReport.quarter = :quarter " +

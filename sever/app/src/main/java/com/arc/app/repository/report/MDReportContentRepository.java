@@ -22,7 +22,7 @@ public interface MDReportContentRepository extends JpaRepository<MDReportContent
             "sum(case when entity.numberFemalePatient is null then 0 else entity.numberFemalePatient end)," +
             "sum(case when entity.numberTotalPatient is null then 0 else entity.numberTotalPatient end)) " +
             "from MDReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.mdReport.hivReport.quarter is not null " +
             "and entity.mdReport.hivReport.status = 5 " +
             "and entity.mdReport.hivReport.quarter = :quarter " +

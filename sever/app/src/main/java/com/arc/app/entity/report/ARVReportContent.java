@@ -10,7 +10,7 @@ import javax.persistence.*;
  * author: NMDuc
  **/
 @Entity
-@Table(name = "tbl_arv_report")
+@Table(name = "tbl_arv_report_content")
 @Getter
 @Setter
 public class ARVReportContent extends BaseEntity {

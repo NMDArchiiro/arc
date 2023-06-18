@@ -31,7 +31,7 @@ public interface ATHReportContentRepository extends JpaRepository<ATHReportConte
             "sum(case when entity.numberPersonTestingFemale is null then 0 else entity.numberPersonTestingFemale end), " +
             "sum(case when entity.numberPersonTestingTotal is null then 0 else entity.numberPersonTestingTotal end)) " +
             "from ATHReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.athReport.hivReport.status = 5 " +
             "and entity.athReport.hivReport.quarter is not null " +
             "and entity.athReport.hivReport.quarter = :quarter " +

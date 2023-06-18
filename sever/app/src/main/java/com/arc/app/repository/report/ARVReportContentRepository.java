@@ -26,7 +26,7 @@ public interface ARVReportContentRepository extends JpaRepository<ARVReportConte
             "sum(case when entity.numberTotalOver15 is null then 0 else entity.numberTotalOver15 end), " +
             "sum(case when entity.numberTotal is null then 0 else entity.numberTotal end)) " +
             "from ARVReportContent entity " +
-            "Where (entity.locked is null OR entity.locked = false ) " +
+            "Where (entity.voided is null OR entity.voided = false ) " +
             "and entity.arvReport.hivReport.quarter is not null " +
             "and entity.arvReport.hivReport.status = 5 " +
             "and entity.arvReport.hivReport.quarter = :quarter " +
